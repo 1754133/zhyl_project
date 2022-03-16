@@ -15,14 +15,22 @@
 <script>
 export default {
   name: "NavMenu",
+  props: ['isActive'],
   data(){
     return{
-      activeIndex: '1'
+      activeIndex: this.isActive
     }
   },
   methods:{
-    handleSelect(){
-
+    handleSelect(key, keyPath){
+      switch (key){
+        case "1":
+          this.$router.push('/')
+          break
+        case "3":
+          this.$router.push('/Department')
+          break
+      }
     }
   }
 }

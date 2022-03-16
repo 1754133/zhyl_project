@@ -127,11 +127,18 @@ export default {
             password: this.form1.password
           }).then(res => {
             if (res.code === '200') {
+              this.formVisible1 = res.data.visble
               localStorage.setItem("user", JSON.stringify(res.data))
               this.formVisible1 = false
               this.changeVisible()
               this.changeUsername(res.data.username)
               this.changeAuthentication(true)
+              this.$message({
+                message: '登录成功',
+                type: 'success'
+              })
+            }else {
+              this.$message.error(res.msg)
             }
           })
         } else {
@@ -144,14 +151,18 @@ export default {
       params.append('phone', this.form2.phone)
       this.request.post('/verification/register',params).then(res => {
         if (res.code === '200'){
-          console.log(res)
+          this.$message({
+            message: '短信发送成功',
+            type: 'success'
+          })
+        }else{
+          this.$message.error(res.msg)
         }
       })
     },
     register(){
       this.$refs['registerForm'].validate((valid) => {
         if (valid) {
-          console.log('格式符合要求')
           this.request.post('/user', {
             username: this.form2.username,
             password: this.form2.password,
@@ -164,6 +175,12 @@ export default {
               this.changeVisible()
               this.changeUsername(res.data.username)
               this.changeAuthentication(true)
+              this.$message({
+                message: '注册成功',
+                type: 'success'
+              })
+            }else {
+              this.$message.error(res.msg)
             }
           })
         } else {
