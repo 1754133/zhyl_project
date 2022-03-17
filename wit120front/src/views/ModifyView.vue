@@ -146,7 +146,7 @@ export default {
             this.old_form.gender = 'female'
           }
         }else{
-          this.$message(res.msg);
+          this.$message.error(res.msg);
         }
       });
     },

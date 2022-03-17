@@ -5,6 +5,8 @@ import DepartmentView from "@/views/DepartmentView";
 import ModifyView from "@/views/ModifyView";
 import PasswordView from "@/views/PasswordView";
 import ClinicView from "@/views/ClinicView";
+import DoctorManage from "@/views/DoctorManage";
+import DrugManage from "@/views/DrugManage";
 
 Vue.use(VueRouter)
 
@@ -12,7 +14,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView2
+    component: DoctorManage
   },
   {
     path: '/Department',
