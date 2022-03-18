@@ -81,8 +81,6 @@
           </el-form-item>
           <el-form-item label="所属科室" :label-width="formLabelWidth" prop="department">
             <el-select v-model="form.department" placeholder="请选择科室" style="width: 300px" @click.native="showDepartmentName">
-<!--              <el-option label="心血管内科" value="心血管内科"></el-option>
-              <el-option label="血液内科" value="血液内科"></el-option>-->
               <el-option v-for="(name, index) in departmentNameList" :label="name" :value="name" :key="index"></el-option>
             </el-select>
           </el-form-item>
