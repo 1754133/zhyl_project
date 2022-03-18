@@ -7,6 +7,8 @@ import PasswordView from "@/views/PasswordView";
 import ClinicView from "@/views/ClinicView";
 import DoctorManage from "@/views/DoctorManage";
 import DrugManage from "@/views/DrugManage";
+import DoctorAccountManage from "@/views/DoctorAccountManage";
+import DepartmentManage from "@/views/DepartmentManage";
 
 Vue.use(VueRouter)
 
@@ -35,6 +37,16 @@ const routes = [
     path: '/Clinic',
     name: 'clinic',
     component: ClinicView
+  },
+  {
+    path: '/DocAccountManage',
+    name: 'docAccountManage',
+    component: DoctorAccountManage
+  },
+  {
+    path: '/DepartmentManage',
+    name: 'departmentManage',
+    component: DepartmentManage
   }
 ]
 

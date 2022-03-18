@@ -1,7 +1,7 @@
 <template>
   <div style="height: 100%">
     <el-container style="height: 100%; border: 1px solid #eee">
-      <AdminAside :asideWidth="sideWidth" :logoText="logoTextShow" :ifCollapse="isCollapse"></AdminAside>
+      <AdminAside :asideWidth="sideWidth" :logoText="logoTextShow" :ifCollapse="isCollapse" isActive="1-1"></AdminAside>
       <el-container direction="vertical">
         <AdminHeader @changeAside="changeAside"></AdminHeader>
         <el-main>
@@ -63,7 +63,7 @@
           </div>
         </el-main>
       </el-container>
-      <el-dialog title="医生信息编辑" :visible.sync="formVisible" width="35%" @close="closeDialog">
+      <el-dialog title="医生信息编辑" :visible.sync="formVisible" width="35%">
         <el-form :model="form" :rules="rules" ref="docForm">
           <el-form-item label="姓名" :label-width="formLabelWidth" prop="docName">
             <el-input v-model="form.docName" autocomplete="off" style="width: 300px"
@@ -162,7 +162,6 @@ export default {
     },
     searchPage(){
       this.request.get('/docInfo/page/' + this.pageNum + '/' + this.pageSize).then(res => {
-        console.log(res)
         if (res.code === '200'){
           this.tableData = res.data.tableList
           this.total = res.data.total
