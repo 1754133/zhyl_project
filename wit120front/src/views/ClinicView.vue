@@ -5,55 +5,203 @@
       <NavMenu isActive="3"></NavMenu>
       <el-main style="background-color: #FFFFFF">
         <div style="height: 100%">
-          <el-page-header @back="goBack" content="科室坐诊表界面" style="margin-left: 168px">
+          <el-page-header @back="goBack" content="排班信息界面" style="margin-left: 168px">
           </el-page-header>
           <el-input placeholder="请输入医生姓名" v-model="input1" style="width: 20%;margin-left: 1057px;margin-top: 20px">
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
           <div style="display: flex;justify-content: center;margin-top: 50px">
-          <div style="display: flex;justify-content: center;width: 78%">
-          <el-table
-              :data="tableData"
-              border
-              style="width: 100%">
-            <el-table-column
-                prop="date"
-                label="科室">
-            </el-table-column>
-            <el-table-column
-                prop="name"
-                label="时间段">
-            </el-table-column>
-            <el-table-column
-                prop="address"
-                label="03/17">
-            </el-table-column>
-            <el-table-column
-                prop="address"
-                label="03/18">
-            </el-table-column>
-            <el-table-column
-                prop="address"
-                label="03/19">
-            </el-table-column>
-            <el-table-column
-                prop="address"
-                label="03/20">
-            </el-table-column>
-            <el-table-column
-                prop="address"
-                label="03/21">
-            </el-table-column>
-            <el-table-column
-                prop="address"
-                label="03/22">
-            </el-table-column>
-            <el-table-column
-                prop="address"
-                label="03/23">
-            </el-table-column>
-          </el-table>
+            <div class="title">
+              出诊信息
+            </div>
           </div>
+          <div style="display: flex;justify-content: center">
+            <table class='snui-table'>
+
+              <tr>
+                <th>科室</th>
+                <th width="80">时段</th>
+                <th class="">
+                  <div>{{ CalWeekDay(this.weekday) }}</div>
+                  <div>{{ this.month + '/' + this.day }}</div>
+                </th>
+                <th class="">
+                  <div>{{ CalWeekDay(this.weekday + 1) }}</div>
+                  <div>{{ this.month + '/' + (this.day + 1) }}</div>
+                </th>
+                <th class="">
+                  <div>{{ CalWeekDay(this.weekday + 2) }}</div>
+                  <div>{{ this.month + '/' + (this.day + 2) }}</div>
+                </th>
+                <th class="">
+                  <div>{{ CalWeekDay(this.weekday + 3) }}</div>
+                  <div>{{ this.month + '/' + (this.day + 3) }}</div>
+                </th>
+                <th class="">
+                  <div>{{ CalWeekDay(this.weekday + 4) }}</div>
+                  <div>{{ this.month + '/' + (this.day + 4) }}</div>
+                </th>
+                <th class="">
+                  <div>{{ CalWeekDay(this.weekday + 5) }}</div>
+                  <div>{{ this.month + '/' + (this.day + 5) }}</div>
+                </th>
+                <th class="">
+                  <div>{{ CalWeekDay(this.weekday + 6) }}</div>
+                  <div>{{ this.month + '/' + (this.day + 6) }}</div>
+                </th>
+              </tr>
+              <tr>
+                <td colspan="9" class="parent-dept parent-dept-font">{{ departmentName }}</td>
+              </tr>
+              <tr>
+                <td rowspan="2" style="text-align: center">{{ departmentName }}</td>
+                <td>上午</td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===1&&item.day===weekday"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 1)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 2)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 3)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 4)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 5)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 6)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+              </tr>
+
+
+              <tr>
+                <td>下午</td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===2&&item.day===weekday"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 1)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 2)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 3)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 4)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 5)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="doctor-td">
+                  <div class="doctor-box">
+                    <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 6)"><span><span
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                                                                         aria-describedby="el-popover-5969"
+                                                                         tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
       </el-main>
@@ -70,30 +218,94 @@ export default {
   components: {NavMenu, MyHeader},
   data() {
     return {
-      tableData: [{
-        date: '心血管内科',
-        name: '上午',
-        address: '刘南植'
-      }, {
-        date: '心血管内科',
-        name: '上午',
-        address: '杨育珍'
-      }, {
-        date: '心血管内科',
-        name: '下午',
-        address: '王波'
-      }, {
-        date: '心血管内科',
-        name: '下午',
-        address: '田德英'
-      }]
+      month: '',
+      day: '',
+      weekday: '',
+      departmentName: '',
+      departmentId: 0,
+      tableData: []
     }
   },
+  mounted() {
+    this.getdate()
+  },
+  computed: {
+    CalWeekDay() {
+      return function (weekday) {
+        weekday = weekday % 7
+        if (weekday == '1') {
+          return '周一'
+        } else if (weekday == '2') {
+          return '周二'
+        } else if (weekday == '3') {
+          return '周三'
+        } else if (weekday == '4') {
+          return '周四'
+        } else if (weekday == '5') {
+          return '周五'
+        } else if (weekday == '6') {
+          return '周六'
+        } else if (weekday == '0') {
+          return '周日'
+        }
+      }
+
+    }
+  },
+  created() {
+    this.departmentName = this.$route.query.departmentName
+    this.departmentId = this.$route.query.departmentId
+    this.showTableData()
+  },
   methods: {
-    goBack(){
-      this.$router.push('/')
+    showTableData() {
+      this.request.get('/department/shiftInfo/' + this.departmentId).then(res => {
+        if (res.code === '200') {
+          //this.tableData = res.data
+          console.log(res.data)
+          this.tableData = res.data
+        } else {
+          this.$message.error(res.msg);
+        }
+      })
+    },
+    goBack() {
+      this.$router.push('/Department')
+    },
+    objectSpanMethod({row, column, rowIndex, columnIndex}) {
+      if (columnIndex === 0 || columnIndex === 1) {
+        if (rowIndex % 2 === 0) {
+          return {
+            rowspan: 2,
+            colspan: 1
+          };
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0
+          };
+        }
+      }
+    },
+    getdate() {
+      var date = new Date();
+      this.weekday = date.getDay()
+      var seperator1 = "-";
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      this.day = strDate
+      this.month = month
+      this.date = month + '/' + strDate;
     }
   }
+
+
 }
 </script>
 
@@ -101,5 +313,133 @@ export default {
 .el-main {
   padding: 0;
   flex-grow: 1;
+}
+
+.title {
+  -webkit-text-size-adjust: 100%;
+  font-family: SourceHanSansCN-Regular, Hiragino Sans GB, Microsoft YaHei, -apple-system-font, Helvetica Neue, sans-serif;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
+  /* position: relative; */
+  background-color: #008080;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  width: 78%;
+}
+
+.snui-table {
+  -webkit-text-size-adjust: 100%;
+  font-family: SourceHanSansCN-Regular, Hiragino Sans GB, Microsoft YaHei, -apple-system-font, Helvetica Neue, sans-serif;
+  color: #313131;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  width: 78%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  background-color: transparent;
+  font-size: 14px;
+  table-layout: fixed;
+  margin-bottom: 0;
+}
+
+.parent-dept-font {
+  -webkit-text-size-adjust: 100%;
+  font-family: SourceHanSansCN-Regular, Hiragino Sans GB, Microsoft YaHei, -apple-system-font, Helvetica Neue, sans-serif;
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 5px 10px;
+  border: 1px solid #f1f1f1;
+  text-align: left;
+  color: #008B8B;
+  background-color: #eee;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.doctor-td {
+  -webkit-text-size-adjust: 100%;
+  font-family: SourceHanSansCN-Regular, Hiragino Sans GB, Microsoft YaHei, -apple-system-font, Helvetica Neue, sans-serif;
+  color: #313131;
+  border-spacing: 0;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin: 0;
+  outline: none;
+  box-sizing: border-box;
+  height: 40px;
+  font-weight: 400;
+  text-align: center;
+  border: 1px solid #f1f1f1;
+  padding: inherit;
+}
+
+.doctor-box {
+  -webkit-text-size-adjust: 100%;
+  font-family: SourceHanSansCN-Regular, Hiragino Sans GB, Microsoft YaHei, -apple-system-font, Helvetica Neue, sans-serif;
+  color: #313131;
+  border-spacing: 0;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.el-popover__reference-wrapper {
+  -webkit-text-size-adjust: 100%;
+  font-family: SourceHanSansCN-Regular, Hiragino Sans GB, Microsoft YaHei, -apple-system-font, Helvetica Neue, sans-serif;
+  color: #313131;
+  border-spacing: 0;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.el-button {
+  -webkit-text-size-adjust: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  display: inline-block;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  background: rgb(2, 90, 148);
+  color: #084e02;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  outline: 0;
+  margin: 0;
+  transition: .1s;
+  font-weight: 500;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  width: 100%;
+  padding: 5px 10px;
+  overflow: hidden;
+  text-align: left;
+  background-color: transparent;
 }
 </style>

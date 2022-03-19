@@ -10,34 +10,19 @@
           <el-input placeholder="请输入医生姓名" v-model="input1" style="width: 20%;margin-left: 1057px;margin-top: 20px">
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
-          <div style="display: flex;justify-content: center;margin-top: 50px">
-            <mu-button full-width style="width: 15%" @click="goNext">心血管内科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">消化内科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">内分泌内科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">血液内科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">肾病内科门诊</mu-button>
+          <div v-for="i in (row-1)">
+            <div style="display: flex;justify-content: center;margin-top: 50px">
+              <mu-button full-width style="width: 15%" @click="goNext(form[(i-1)*5].departmentId, form[(i-1)*5].departmentName)">{{form[(i-1)*5].departmentName}}</mu-button>
+              <mu-button full-width style="width: 15%;margin-left: 10px" @click="goNext(form[(i-1)*5+1].departmentId, form[(i-1)*5+1].departmentName)">{{form[(i-1)*5+1].departmentName}}</mu-button>
+              <mu-button full-width style="width: 15%;margin-left: 10px" @click="goNext(form[(i-1)*5+2].departmentId, form[(i-1)*5+2].departmentName)">{{form[(i-1)*5+2].departmentName}}</mu-button>
+              <mu-button full-width style="width: 15%;margin-left: 10px" @click="goNext(form[(i-1)*5+3].departmentId, form[(i-1)*5+3].departmentName)">{{form[(i-1)*5+3].departmentName}}</mu-button>
+              <mu-button full-width style="width: 15%;margin-left: 10px" @click="goNext(form[(i-1)*5+4].departmentId, form[(i-1)*5+4].departmentName)">{{form[(i-1)*5+4].departmentName}}</mu-button>
+            </div>
           </div>
-          <div style="display: flex;justify-content: center;margin-top: 30px">
-            <mu-button full-width style="width: 15%">风湿免疫内科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">神经外科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">小儿外科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">骨科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">泌尿外科门诊</mu-button>
-          </div>
-          <div style="display: flex;justify-content: center;margin-top: 30px">
-            <mu-button full-width style="width: 15%">胸外科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">器官移植门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">胆胰外科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">胃肠外科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">肝脏外科门诊</mu-button>
-          </div>
-          <div style="display: flex;justify-content: center;margin-top: 30px">
-            <mu-button full-width style="width: 15%">整形外科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">儿科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">感染科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">中医科门诊</mu-button>
-            <mu-button full-width style="width: 15%;margin-left: 10px">神经内科门诊</mu-button>
-          </div>
+            <div style="display: flex;justify-content: center;margin-top: 50px">
+              <mu-button full-width style="width: 15%" @click="goNext(form[(row-1)*5].departmentId, form[(row-1)*5].departmentName)">{{form[(row-1)*5].departmentName}}</mu-button>
+              <mu-button v-for='i in col - 1' full-width style="width: 15%;margin-left: 10px" @click="goNext(form[(row-1)*5+i].departmentId, form[(row-1)*5+i].departmentName)">{{form[(row-1)*5+i].departmentName}}</mu-button>
+            </div>
         </div>
       </el-main>
     </el-container>
@@ -51,13 +36,44 @@ import NavMenu from "@/components/NavMenu";
 export default {
   name: "DepartmentView",
   components: {NavMenu, MyHeader},
+  data() {
+    return {
+      form: [],
+      row:'',
+      col:'',
+      length: '',
+    }
+  },
+  mounted() {
+    this.showDepartment()
+
+  },
   methods: {
     goBack(){
       this.$router.push('/')
     },
-    goNext(){
-      this.$router.push('/Clinic')
-    }
+    goNext(departmentId, departmentName){
+      this.$router.push({path:'/Clinic',query : {departmentId: departmentId, departmentName: departmentName}})
+      // console.log(depart)
+      // this.$router.push('/Clinic')
+    },
+    callayout(){
+      this.length=this.form.length
+      this.row=Math.ceil(this.length/5)
+      this.col=this.length-(this.row-1)*5
+    },
+    showDepartment() {
+      this.request.get('/department').then(res =>{
+      if (res.code === '200'){
+        this.form = res.data
+        this.length=this.form.length
+        this.row=Math.ceil(this.length/5)
+        this.col=this.length-(this.row-1)*5
+      }else{
+        this.$message.error(res.msg);
+      }
+    });
+    },
   }
 }
 </script>

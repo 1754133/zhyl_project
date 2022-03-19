@@ -16,7 +16,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: DoctorManage
+    component: HomeView2
   },
   {
     path: '/Department',
