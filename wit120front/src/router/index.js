@@ -47,6 +47,11 @@ const routes = [
     path: '/DepartmentManage',
     name: 'departmentManage',
     component: DepartmentManage
+  },
+  {
+    path: '/DrugManage',
+    name: 'drugManage',
+    component: DrugManage
   }
 ]
 

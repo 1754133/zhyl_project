@@ -70,6 +70,9 @@ export default {
         case '3':
           this.$router.push('/DepartmentManage')
           break
+        case '4':
+          this.$router.push('/DrugManage')
+          break
       }
     }
   }
