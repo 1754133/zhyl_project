@@ -9,6 +9,7 @@ import DoctorManage from "@/views/DoctorManage";
 import DrugManage from "@/views/DrugManage";
 import DoctorAccountManage from "@/views/DoctorAccountManage";
 import DepartmentManage from "@/views/DepartmentManage";
+import DocDetail from "@/views/DocDetail";
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,11 @@ const routes = [
     path: '/DrugManage',
     name: 'drugManage',
     component: DrugManage
+  },
+  {
+    path: '/DocDetail',
+    name: 'docDetail',
+    component: DocDetail
   }
 ]
 

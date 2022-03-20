@@ -60,7 +60,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===1&&item.day===weekday"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -70,7 +70,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 1)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -80,7 +80,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 2)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -89,7 +89,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 3)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -98,7 +98,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 4)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -108,7 +108,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 5)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -118,7 +118,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===1&&item.day===(weekday + 6)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -134,7 +134,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===2&&item.day===weekday"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -144,7 +144,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 1)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -154,7 +154,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 2)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -164,7 +164,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 3)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -174,7 +174,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 4)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -184,7 +184,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 5)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -194,7 +194,7 @@
                 <td class="doctor-td">
                   <div class="doctor-box">
                     <div v-for="item in tableData" v-if="item.noon===2&&item.day===(weekday + 6)"><span><span
-                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
+                        class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px" @click="goNext(item.doctorId, departmentId)"
                                                                          aria-describedby="el-popover-5969"
                                                                          tabindex="0"><span><span>{{ item.doctorName }}</span></span></el-button></span></span>
                     </div>
@@ -261,8 +261,6 @@ export default {
     showTableData() {
       this.request.get('/department/shiftInfo/' + this.departmentId).then(res => {
         if (res.code === '200') {
-          //this.tableData = res.data
-          console.log(res.data)
           this.tableData = res.data
         } else {
           this.$message.error(res.msg);
@@ -271,6 +269,9 @@ export default {
     },
     goBack() {
       this.$router.push('/Department')
+    },
+    goNext(doctorId, departmentId){
+      this.$router.push({path:'/DocDetail',query : {doctorId: doctorId, departmentId: departmentId}})
     },
     objectSpanMethod({row, column, rowIndex, columnIndex}) {
       if (columnIndex === 0 || columnIndex === 1) {
