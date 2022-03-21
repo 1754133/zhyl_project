@@ -265,24 +265,24 @@
                   <span v-if="noon !== ''">--{{ this.month + '/' + (this.day + (this.day1 - this.weekday + 7) % 7) }}</span> / {{ this.noon }}
                 </div>
                   <div v-if="noon1 === 1" style="display: flex;justify-content: center;margin-top: 50px">
-                    <mu-button full-width style="width: 25%;height:30%" color="success" @click="getOrder(this.FormData.doctorId, this.day1, 1)">
+                    <mu-button full-width style="width: 25%;height:30%" color="success" @click="getOrder(FormData.doctorId, day1, 1, sliceNum1, '8:00--9:00')">
                       8:00--9:00 余号:{{ 4 - sliceNum1 }}
                     </mu-button>
-                    <mu-button full-width style="width: 25%;margin-left: 10px" color="success" @click="getOrder(this.FormData.doctorId, this.day1, 2)">
+                    <mu-button full-width style="width: 25%;margin-left: 10px" color="success" @click="getOrder(FormData.doctorId, day1, 2, sliceNum2, '9:00--10:00')">
                       9:00--10:00 余号:{{ 4 - sliceNum2 }}
                     </mu-button>
-                    <mu-button full-width style="width: 25%;margin-left: 10px" color="success" @click="getOrder(this.FormData.doctorId, this.day1, 3)">
+                    <mu-button full-width style="width: 25%;margin-left: 10px" color="success" @click="getOrder(FormData.doctorId, day1, 3, sliceNum3, '10:00--11:00')">
                       10:00--11:00 余号:{{ 4 - sliceNum3 }}
                     </mu-button>
                   </div>
                   <div v-if="noon1 === 2" style="display: flex;justify-content: center;margin-top: 50px">
-                    <mu-button full-width style="width: 25%" color="success" @click="getOrder(this.FormData.doctorId, this.day1, 4)">14:00--15:00
+                    <mu-button full-width style="width: 25%" color="success" @click="getOrder(FormData.doctorId, day1, 4, sliceNum1, '14:00--15:00')">14:00--15:00
                       余号:{{ 4 - sliceNum1 }}
                     </mu-button>
-                    <mu-button full-width style="width: 25%;margin-left: 10px" color="success" @click="getOrder(this.FormData.doctorId, this.day1, 5)">
+                    <mu-button full-width style="width: 25%;margin-left: 10px" color="success" @click="getOrder(FormData.doctorId, day1, 5, sliceNum2, '15:00--16:00')">
                       15:00--16:00 余号:{{ 4 - sliceNum2 }}
                     </mu-button>
-                    <mu-button full-width style="width: 25%;margin-left: 10px" color="success" @click="getOrder(this.FormData.doctorId, this.day1, 6)">
+                    <mu-button full-width style="width: 25%;margin-left: 10px" color="success" @click="getOrder(FormData.doctorId, day1, 6, sliceNum3, '16:00--17:00')">
                       16:00--17:00 余号:{{ 4 - sliceNum3 }}
                     </mu-button>
                   </div>
@@ -432,8 +432,13 @@ export default {
         }
       })
     },
-    getOrder(doctorId, day, timeSlice) {
-      this.$router.push({path:'/OrderDetail',query : {doctorId: doctorId, day: day, timeSlice: timeSlice}})
+    getOrder(doctorId, day, timeSlice, sliceNum, sliceStr) {
+      if (sliceNum >= 4){
+        this.$message.error("该时间段预约人数已满")
+      }else{
+        let dateStr = this.month + '/' + (this.day + (this.day1 - this.weekday + 7) % 7) + '/' + this.noon
+        this.$router.push({path:'/ConfirmOrderView',query : {doctorId: doctorId, day: day, timeSlice: timeSlice, sliceStr: sliceStr, dateStr: dateStr, doctorName: this.FormData.name, departmentName: this.FormData.depart}})
+      }
     },
     getdate() {
       var date = new Date();

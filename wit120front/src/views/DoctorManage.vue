@@ -181,6 +181,8 @@ export default {
       this.request.get('/department/name').then(res => {
         if (res.code === '200'){
           this.departmentNameList = res.data
+        }else {
+          this.$message.error(res.msg);
         }
       })
     },
@@ -210,30 +212,6 @@ export default {
     showDesc(docDesc){
       this.dialogVisible = true
       this.desc = docDesc
-    },
-    deleteInfo(docInfoId){
-      this.$confirm('此操作将删除一条医生信息, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.request.delete('/docInfo/' + docInfoId).then(res => {
-          if (res.code === '200'){
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.searchPage()
-          }else{
-            this.$message.error(res.code)
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        });
-      });
     }
   }
 }

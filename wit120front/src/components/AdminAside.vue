@@ -31,6 +31,10 @@
         <i class="el-icon-menu"></i>
         <span slot="title">药品管理</span>
       </el-menu-item>
+      <el-menu-item index="5">
+        <i class="el-icon-menu"></i>
+        <span slot="title">医技管理</span>
+      </el-menu-item>
     </el-menu>
   </el-aside>
 </template>
@@ -73,6 +77,8 @@ export default {
         case '4':
           this.$router.push('/DrugManage')
           break
+        case '5':
+          this.$router.push('/MedicalTechnicianManage')
       }
     }
   }
