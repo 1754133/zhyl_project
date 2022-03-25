@@ -47,6 +47,11 @@
                     width="120">
                 </el-table-column>
                 <el-table-column
+                    prop="deal"
+                    label="已处理"
+                    width="120">
+                </el-table-column>
+                <el-table-column
                     fixed="right"
                     label="选项"
                     width="200">
@@ -54,7 +59,7 @@
                     <el-button
                         type="text" size="small" @click="goNext(scope.row)">填写处方
                     </el-button>
-                    <el-button
+                    <el-button v-if="scope.row.deal === '否'"
                         type="text" size="small" @click="handleDelete(scope.row.orderId)">过号
                     </el-button>
                   </template>
@@ -92,6 +97,11 @@ export default {
         }else{
           item.gender = '女'
         }
+        if (item.deal === true){
+          item.deal = '是'
+        }else{
+          item.deal = '否'
+        }
         if (item.orderTimeSlice === 1){
           item.orderTimeSlice = '8:00-9:00'
         }else if (item.orderTimeSlice === 2){
@@ -114,6 +124,7 @@ export default {
       if (user){
         this.request.get('/doctor/todayPatient/' + user.userId + '/' + this.date).then(res => {
           if (res.code === '200'){
+            console.log(res.data)
             this.tableData = this.handleTableData(res.data)
           }else{
             this.$message.error(res.msg)
@@ -139,7 +150,7 @@ export default {
       this.$router.push('/')
     },
     goNext(row) {
-      this.$router.push({path:'/Recipe',query : {orderId: row.orderId, patientName: row.patientName, patientGender: row.gender}})
+      this.$router.push({path:'/Recipe',query : {orderId: row.orderId, patientId: row.patientId}})
     },
     handleDelete(orderId) {
       this.$confirm('此操作将跳过该患者挂号信息, 是否继续?', '提示', {
@@ -150,9 +161,10 @@ export default {
         this.request.delete('/order/appointment/' + orderId).then(res => {
           if (res.code === '200') {
             this.$message({
-              message: '删除成功',
+              message: '过号成功',
               type: 'success'
             })
+            this.getTableData()
           } else {
             this.$message.error(res.code)
           }
@@ -160,7 +172,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: '已取消操作'
         });
       });
     }

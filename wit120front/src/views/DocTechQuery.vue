@@ -63,9 +63,10 @@
                       label="操作"
                       width="140">
                     <template slot-scope="scope">
-                      <el-button @click="handleClick1(scope.row.deal)" type="success">处理</el-button>
+                      <el-button v-if="scope.row.deal==='否'" @click="handleClick1(scope.row.medResOrderId)" type="success">处理</el-button>
+                      <el-button v-if="scope.row.deal==='是'" @click="getResult(scope.row.medResOrderId)" type="success">查看</el-button>
                       <span v-if="scope.row.deal==='否'"><el-button type="danger"
-                                                                   @click.native.prevent="deleteRow(scope.$index, tableData)">过号</el-button></span>
+                                                                   @click="deleteRow(scope.row.medResOrderId)">过号</el-button></span>
                       <span v-if="scope.row.deal==='是'"><el-button type="danger" disabled>过号</el-button></span>
                     </template>
                   </el-table-column>
@@ -73,9 +74,11 @@
 
                 <el-dialog title="检查结果" :visible.sync="formVisible" width="45%">
                   <el-input type="textarea" :rows="10" v-model="result" placeholder="请填入检查结果"></el-input>
+                  <el-button type="primary" style="margin-top: 20px" @click="submitResult">提交结果</el-button>
                 </el-dialog>
-
-
+                <el-dialog title="检查结果" :visible.sync="formVisible1" width="45%">
+                  <el-input type="textarea" :rows="10" v-model="result1"></el-input>
+                </el-dialog>
               </el-main>
             </el-container>
           </div>
@@ -96,37 +99,12 @@ export default {
     return {
       date: '',
       formVisible: false,
-      detail: '',
+      formVisible1: false,
+      medResOrderId: 0,
       patientId: '',
       result: '',
-      tableData: [/*{
-        medResOrderId: '1',
-        orderId: '23',
-        patientId: '23',
-        medResId: '4',
-        orderTime: '51',
-        patientName: '',
-        medResName: '2',
-        createTime: '3',
-        day: '4',
-        noon: '5',
-        cost: '6',
-        deal: '是',
-      },
-        {
-          medResOrderId: '1',
-          orderId: '2323',
-          patientId: '2324',
-          medResId: '24',
-          orderTime: '2525',
-          patientName: '222',
-          medResName: '2',
-          createTime: '3',
-          day: '4',
-          noon: '5',
-          cost: '6',
-          deal: '否',
-        },*/]
+      result1: '',
+      tableData: []
     }
   },
   created() {
@@ -147,12 +125,60 @@ export default {
     goBack() {
       this.$router.push('/')
     },
-    handleClick1(data) {
-      this.detail = data
+    getResult(medResOrderId){
+      this.request.get('/medicalResource/checkResult/' + medResOrderId).then(res => {
+        if (res.code === '200'){
+          this.result1 = res.data
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+      this.formVisible1 = true
+    },
+    handleClick1(medResOrderId) {
+      this.medResOrderId = medResOrderId
       this.formVisible = true
     },
-    deleteRow(index, rows) {//删除改行
-      rows.splice(index, 1);
+    submitResult(){
+      let params = new FormData()
+      params.append('medResOrderId', this.medResOrderId)
+      params.append('checkResult', this.result)
+      this.request.post('/medicalResource/checkResult', params).then(res => {
+        if (res.code === '200'){
+          this.$message({
+            message: '提交成功',
+            type: 'success'
+          })
+          this.formVisible = false
+          this.showTableData()
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    deleteRow(medResOrderId) {
+      this.$confirm('此操作将跳过该患者医技预约, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.request.delete('/medicalResource/appointment/' + medResOrderId).then(res => {
+          if (res.code === '200') {
+            this.$message({
+              message: '过号成功',
+              type: 'success'
+            })
+            this.showTableData()
+          } else {
+            this.$message.error(res.code)
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
+        });
+      });
     },
     calweekday(weekday) {
       if (weekday == '1') {
@@ -201,19 +227,7 @@ export default {
         this.$message('请先登录')
         this.$router.push('/')
       }
-    },
-    // sendPatientId(){
-    //     this.request.post('', {patientId:this.patientId,orderId:this.orderId}).then(res =>{
-    //         if (res.code === '200'){
-    //         this.$message({
-    //             message: '发送成功',
-    //             type: 'success'
-    //         })
-    //         }else{
-    //         this.$message(res.msg)
-    //         }
-    //     })
-    // },
+    }
   }
 }
 </script>

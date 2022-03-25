@@ -47,8 +47,10 @@
                         required: true, message: '药品名不能为空', trigger: 'blur'
                       }"
                 >
-                  <el-select v-model="drug[index]" placeholder="请选择药品" style="width: 300px" @click.native="showDrugName">
-                    <el-option v-for="(name, index) in drugNameList" :label="name" :value="name" :key="index"></el-option>
+                  <el-select v-model="drug[index]" placeholder="请选择药品" style="width: 300px"
+                             @click.native="showDrugName">
+                    <el-option v-for="(name, index) in drugNameList" :label="name" :value="name"
+                               :key="index"></el-option>
                   </el-select>
                   <el-input-number v-model="num[index]" @change="handleChange" :min="1" :max="999"
                                    label="药品数量"></el-input-number>
@@ -67,18 +69,61 @@
           <div style="margin-top: 30px">
             <span style="font-size: 25px;font-weight: bold;margin-left: 168px">医技推荐</span>
           </div>
-          <el-button type="text" @click="dialogVisible = true" style="margin-left: 168px;font-size: 20px">点击推荐医技</el-button>
+          <div style="display: flex;justify-content: center;margin-top: 30px">
+            <el-form :model="form" label-width="80px">
+              <el-form-item label="选择医技">
+                <el-form-item
+                    v-for="(domain, index) in dynamicValidateForm.domains1"
+                    :label="'医技' + (index + 1)"
+                    :key="domain.key"
+                    :prop="'domains1.' + index + '.value'"
+                    :rules="{
+            required: true, message: '医技名不能为空', trigger: 'blur'
+          }"
+                >
+                  <el-select v-model="technician[index]" placeholder="请选择具体医技" @click.native="showTechnicianName"
+                             style="width: 300px">
+                    <el-option v-for="(name, index) in technicianNameList" :label="name" :value="name"
+                               :key="index"></el-option>
+                  </el-select>
+                  <el-button @click.prevent="removeDomain1(domain)">
+                    删除
+                  </el-button>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button type="primary" @click="submitTechnician">提交</el-button>
+                  <el-button @click="addDomain1">
+                    新增医技
+                  </el-button>
+                </el-form-item>
+              </el-form-item>
+            </el-form>
+          </div>
+          <div style="display: flex;justify-content: center">
+            <mu-divider :shallow-inset="true" style="margin-top: 25px;width: 78%"></mu-divider>
+          </div>
+          <div style="margin-top: 30px">
+            <span style="font-size: 25px;font-weight: bold;margin-left: 168px">其他操作</span>
+          </div>
+          <div style="display: flex;justify-content: center;margin-top: 30px">
+            <el-button type="primary" @click="showOrderRecord">查看检查结果</el-button>
+            <el-button @click="">
+              安排患者入院
+            </el-button>
+          </div>
+          <!--          <el-button type="text" @click="dialogVisible = true" style="margin-left: 168px;font-size: 20px">点击推荐医技</el-button>-->
         </div>
       </el-main>
     </el-container>
-    <el-dialog
+<!--    <el-dialog
         title="选择你推荐的医技资源"
         :visible.sync="dialogVisible"
         width="30%"
         :before-close="handleClose"
         :append-to-body="true"
     >
-      <el-form :model="form">
+      <el-form :model="form" label-width="80px">
         <el-form-item
             v-for="(domain, index) in dynamicValidateForm.domains1"
             :label="'医技' + (index + 1)"
@@ -106,7 +151,7 @@
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="submitTechnician">确 定</el-button>
       </div>
-    </el-dialog>
+    </el-dialog>-->
   </div>
 </template>
 
@@ -119,6 +164,7 @@ export default {
   components: {DocNavMenu, MyHeader},
   data() {
     return {
+      patientId: 0,
       patientName: '',
       patientGender: '',
       orderId: 0,
@@ -161,74 +207,89 @@ export default {
     }
   },
   created() {
-    this.patientName = this.$route.query.patientName
-    this.patientGender = this.$route.query.patientGender
+    this.patientId = this.$route.query.patientId
     this.orderId = this.$route.query.orderId
+    this.showPatientInfo()
     this.showCaseHistory()
   },
   methods: {
-    submitTechnician(){
+    showOrderRecord(){
+      this.$router.push({path:'/OrderQuery1',query : {orderId: this.orderId, patientId: this.patientId}})
+    },
+    submitTechnician() {
       let technicianStr = ''
-      for (let item of this.technician){
-        technicianStr = technicianStr + item +';'
+      for (let item of this.technician) {
+        technicianStr = technicianStr + item + ';'
       }
       let params = new FormData()
       params.append('orderId', this.orderId)
       params.append('recommend', technicianStr)
       this.request.post('/medicalResource/recommend', params).then(res => {
-        if (res.code === '200'){
+        if (res.code === '200') {
           this.$message({
             message: '保存成功',
             type: 'success'
           })
           this.dialogVisible = false
-        }else{
+        } else {
           this.$message.error(res.msg)
         }
       })
     },
-    showCaseHistory(){
-      this.request.get('/doctor/caseHistory/' + this.orderId).then(res => {
+    showPatientInfo(){
+      this.request.get('/patient/' + this.patientId).then(res => {
         if (res.code === '200'){
+          this.patientName = res.data.realName
+          if (res.data.gender === true){
+            this.patientGender = '男'
+          }else{
+            this.patientGender = '女'
+          }
+        }
+      })
+    },
+    showCaseHistory() {
+      this.request.get('/doctor/caseHistory/' + this.orderId).then(res => {
+        if (res.code === '200') {
           this.form.desc = res.data
-        }else{
+        } else {
           this.$message.error(res.msg)
         }
       })
     },
-    submitRecipe(){
+    submitRecipe() {
       let recipeStr = ''
-      for (let i = 0, j = 0; i < this.drug.length, j < this.drug.length; i++, j++){
+      for (let i = 0, j = 0; i < this.drug.length, j < this.drug.length; i++, j++) {
         recipeStr = recipeStr + this.drug[i] + 'x' + this.num[j] + ';'
       }
       let params = new FormData()
       params.append('orderId', this.orderId)
       params.append('prescription', recipeStr)
       this.request.post('/doctor/prescription', params).then(res => {
-        if (res.code === '200'){
+        if (res.code === '200') {
           this.$message({
             message: '保存成功',
             type: 'success'
           })
-        }else{
+        } else {
           this.$message.error(res.msg)
         }
       })
     },
-    showDrugName(){
+    showDrugName() {
       this.request.get('/drug/names').then(res => {
-        if (res.code === '200'){
+        if (res.code === '200') {
           this.drugNameList = res.data
-        }else{
+        } else {
           this.$message.error(res.msg)
         }
       })
     },
-    showTechnicianName(){
+    showTechnicianName() {
       this.request.get('/medicalTechnician/names').then(res => {
-        if (res.code === '200'){
+        if (res.code === '200') {
           this.technicianNameList = res.data
-        }else{
+        } else {
           this.$message.error(res.msg)
         }
       })
@@ -244,12 +305,12 @@ export default {
       params.append('orderId', this.orderId)
       params.append('caseHistory', this.form.desc)
       this.request.post('/doctor/caseHistory', params).then(res => {
-        if (res.code === '200'){
+        if (res.code === '200') {
           this.$message({
             message: '保存成功',
             type: 'success'
           })
-        }else{
+        } else {
           this.$message.error(res.msg)
         }
       })
@@ -279,7 +340,7 @@ export default {
         this.num.splice(index, 1)
       }
     },
-    removeDomain1(item){
+    removeDomain1(item) {
       var index = this.dynamicValidateForm.domains1.indexOf(item)
       if (index !== -1) {
         this.dynamicValidateForm.domains1.splice(index, 1)
@@ -292,7 +353,7 @@ export default {
         key: Date.now()
       });
     },
-    addDomain1(){
+    addDomain1() {
       this.dynamicValidateForm.domains1.push({
         value: '123',
         key: Date.now()

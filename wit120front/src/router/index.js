@@ -24,6 +24,8 @@ import TechConfirm from "@/views/TechConfirm";
 import TechQuery from "@/views/TechQuery";
 import DocDetail2 from "@/views/DocDetail2";
 import DocTechQuery from "@/views/DocTechQuery"
+import OrderQuery1 from "@/views/OrderQuery1";
+import TechQuery1 from "@/views/TechQuery1";
 
 Vue.use(VueRouter)
 
@@ -147,6 +149,16 @@ const routes = [
     path: '/DocTechQuery',
     name: 'docTechQuery',
     component: DocTechQuery
+  },
+  {
+    path: '/OrderQuery1',
+    name: 'orderQuery1',
+    component: OrderQuery1
+  },
+  {
+    path: '/TechQuery1',
+    name: 'techQuery1',
+    component: TechQuery1
   }
 ]
 

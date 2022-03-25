@@ -2,7 +2,7 @@
   <div style="height: 100%">
     <el-container style="height: 100%" direction="vertical">
       <MyHeader></MyHeader>
-      <NavMenu isActive="5"></NavMenu>
+      <DocNavMenu isActive="3"></DocNavMenu>
       <el-main style="background-color: #FFFFFF">
         <div style="height: 100%">
           <el-page-header @back="goBack" content="医疗技术预约界面" style="margin-left: 168px">
@@ -62,14 +62,11 @@
                     <template slot-scope="scope">
                       <el-button v-if="scope.row.deal === '是'" @click="handleClick1(scope.row.medResOrderId)" type="success">查看检查结果</el-button>
                       <el-button v-if="scope.row.deal === '否'" @click="handleClick1(scope.row.medResOrderId)" type="success" disabled>查看检查结果</el-button>
-                      <span v-if="scope.row.deal==='否'"><el-button type="danger"
-                                                                        @click="deleteRow(scope.row.medResOrderId)">取消预约</el-button></span>
-                      <span v-if="scope.row.deal==='是'"><el-button type="danger" disabled>取消预约</el-button></span>
                     </template>
                   </el-table-column>
                 </el-table>
 
-                <el-dialog title="检查结果" :visible.sync="formVisible" width="45%">
+                <el-dialog title="检查结果结果" :visible.sync="formVisible" width="45%">
                   <el-input type="textarea" :rows="10" v-model="detail" readonly></el-input>
                 </el-dialog>
 
@@ -85,20 +82,27 @@
 
 <script>
 import MyHeader from "@/components/MyHeader";
-import NavMenu from "@/components/NavMenu";
+import DocNavMenu from "@/components/DocNavMenu";
 
 export default {
   name: "TechQuery",
-  components: {NavMenu, MyHeader},
+  components: {DocNavMenu, MyHeader},
   data() {
     return {
       formVisible: false,
       detail: '',
-      patientId: '',
+      patientId: 0,
+      //查询的挂号ID
+      orderId: 0,
+      //本次挂号的ID
+      thisOrderId: 0,
       tableData: []
     }
   },
   mounted() {
+    this.patientId = this.$route.query.patientId
+    this.orderId = this.$route.query.orderId
+    this.thisOrderId = this.$route.query.thisOrderId
     this.showTableData()
   },
   methods: {
@@ -118,7 +122,7 @@ export default {
       return tableData
     },
     goBack() {
-      this.$router.push('/')
+      this.$router.push({path: 'OrderQuery1', query: {orderId: this.thisOrderId, patientId: this.patientId}})
     },
     handleClick1(medResOrderId) {
       this.request.get('/medicalResource/checkResult/' + medResOrderId).then(res => {
@@ -130,44 +134,14 @@ export default {
       })
       this.formVisible = true
     },
-    deleteRow(medResOrderId) {
-      this.$confirm('此操作将取消该医技预约, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.request.delete('/medicalResource/appointment/' + medResOrderId).then(res => {
-          if (res.code === '200') {
-            this.$message({
-              message: '取消成功',
-              type: 'success'
-            })
-            this.showTableData()
-          } else {
-            this.$message.error(res.code)
-          }
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消操作'
-        });
-      });
-    },
     showTableData() {
-      let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
-      if (user){
-        this.request.get('/medicalResource/appointment/' + user.userId).then(res => {
-          if (res.code === '200') {
-            this.tableData = this.handleTableData(res.data)
-          } else {
-            this.$message(res.msg);
-          }
-        })
-      }else {
-        this.$message('请先登录')
-        this.$router.push('/')
-      }
+      this.request.get('/medicalResource/appointment/order/' + this.orderId).then(res => {
+        if (res.code === '200') {
+          this.tableData = this.handleTableData(res.data)
+        } else {
+          this.$message(res.msg);
+        }
+      })
     },
   }
 }
