@@ -66,7 +66,7 @@ export default {
     handleSelect(key, keyPath){
       switch (key){
         case '1-1':
-          this.$router.push('/')
+          this.$router.push('/DoctorManage')
           break
         case '1-2':
           this.$router.push('/DocAccountManage')

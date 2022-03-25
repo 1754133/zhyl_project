@@ -2,7 +2,8 @@
   <div style="height: 100%">
     <el-container style="height: 100%" direction="vertical">
       <MyHeader></MyHeader>
-      <NavMenu isActive="0"></NavMenu>
+      <NavMenu isActive="0" v-if="permission === 1 || permission === 0"></NavMenu>
+      <DocNavMenu isActive="0" v-if="permission === 2"></DocNavMenu>
       <el-main style="height: 100%">
         <div style="background-color: #eee;display: flex;align-items: center;justify-content: center;height: 100%">
           <div style="width: 70%;background-color: #FFFFFF;height: 100%">
@@ -36,9 +37,10 @@
 <script>
   import MyHeader from "@/components/MyHeader";
   import NavMenu from "@/components/NavMenu";
+  import DocNavMenu from "@/components/DocNavMenu";
   export default {
     name: 'PasswordView',
-    components: {NavMenu, MyHeader},
+    components: {DocNavMenu, NavMenu, MyHeader},
     data() {
     var validatePass1 = (rule, value, callback) => {
         if (value === '') {
@@ -67,6 +69,7 @@
         }
       };
       return {
+        permission: 0,
         old_password:"ganshu990711",
         ruleForm: {
           old_pass:'',
@@ -91,7 +94,19 @@
         }
       };
     },
+    created() {
+      this.judgePermission()
+    },
     methods: {
+      judgePermission(){
+        let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+        if (user){
+          this.permission = user.permission
+        }else{
+          this.$message('请先登录')
+          this.$router.push('/')
+        }
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {

@@ -127,6 +127,9 @@ export default {
             password: this.form1.password
           }).then(res => {
             if (res.code === '200') {
+              if (res.data.permission === 3){
+                this.$router.push('/DoctorManage')
+              }
               this.formVisible1 = res.data.visble
               localStorage.setItem("user", JSON.stringify(res.data))
               this.formVisible1 = false

@@ -7,18 +7,17 @@
         <el-main>
           <div style="margin-bottom: 30px">
             <el-breadcrumb separator="/">
-              <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-              <el-breadcrumb-item><a href="/">医技管理</a></el-breadcrumb-item>
+              <el-breadcrumb-item>医技管理</el-breadcrumb-item>
             </el-breadcrumb>
           </div>
           <div style="margin: 10px 0">
-            <el-input style="width: 200px" suffix-icon="el-icon-search" v-model="phoneNum"></el-input>
+            <el-input style="width: 200px" suffix-icon="el-icon-search" v-model="technicianName"></el-input>
             <el-button style="margin-left: 5px" type="primary" @click="search">搜索</el-button>
           </div>
           <div style="margin: 10px 0">
             <el-button type="primary" @click="dialogFormVisible1=true">新增<i class="el-icon-circle-plus-outline"></i></el-button>
-            <el-button type="primary">导入<i class="el-icon-bottom"></i></el-button>
-            <el-button type="primary">导出<i class="el-icon-top"></i></el-button>
+<!--            <el-button type="primary">导入<i class="el-icon-bottom"></i></el-button>
+            <el-button type="primary">导出<i class="el-icon-top"></i></el-button>-->
           </div>
           <el-table :data="tableData" border stripe header-cell-class-name="headerBg">
             <el-table-column prop="technicianId" label="医技编号">
@@ -100,6 +99,8 @@ export default {
   components: {AdminAside, AdminHeader},
   data(){
     return{
+      isAll: true,   //当前表格数据是否是全部数据，也就是未经搜索的数据，如果是就为true
+      technicianName: '',
       sideWidth: 200,
       logoTextShow: true,
       isCollapse: false,
@@ -137,7 +138,7 @@ export default {
     }
   },
   created() {
-    this.searchPage()
+    this.search()
   },
   methods:{
     changeAside(sideWidth, logoTextShow, isCollapse){
@@ -147,13 +148,14 @@ export default {
     },
     handleSizeChange(pageSize){
       this.pageSize = pageSize
-      this.searchPage()
+      this.search()
     },
     handleCurrentChange(pageNum){
       this.pageNum = pageNum
-      this.searchPage()
+      this.search()
     },
     searchPage(){
+      this.isAll = true
       this.request.get('/medicalTechnician/page/' + this.pageNum + '/' + this.pageSize).then(res => {
         if (res.code === '200'){
           this.tableData = res.data.tableList
@@ -187,7 +189,7 @@ export default {
               })
               this.resetForm('newTechnicianForm')
               this.dialogFormVisible1 = false
-              this.searchPage()
+              this.search()
             }else{
               this.$message.error(res.msg)
             }
@@ -219,7 +221,7 @@ export default {
                 type: 'success'
               })
               this.dialogFormVisible2 = false
-              this.searchPage()
+              this.search()
             }else{
               this.$message.error(res.msg)
             }
@@ -241,7 +243,9 @@ export default {
               message: '删除成功',
               type: 'success'
             })
+            this.pageNum = 1
             this.searchPage()
+            this.technicianName = ''
           }else{
             this.$message.error(res.code)
           }
@@ -252,6 +256,24 @@ export default {
           message: '已取消删除'
         });
       });
+    },
+    search(){
+      if (this.username === ''){
+        this.searchPage()
+      }else{
+        if (this.isAll){
+          this.pageNum = 1
+          this.isAll = false
+        }
+        this.request.get('/medicalTechnician/page/' + this.technicianName + '/' + this.pageNum + '/' + this.pageSize).then(res => {
+          if (res.code === '200'){
+            this.tableData = res.data.tableList
+            this.total = res.data.total
+          }else {
+            this.$message.error(res.msg);
+          }
+        })
+      }
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

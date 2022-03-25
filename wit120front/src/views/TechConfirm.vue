@@ -2,13 +2,19 @@
   <div style="height: 100%">
     <el-container style="height: 100%" direction="vertical">
       <MyHeader></MyHeader>
-      <NavMenu isActive="3"></NavMenu>
+      <NavMenu isActive="4"></NavMenu>
       <el-main style="background-color: #FFFFFF">
         <div style="height: 100%">
-          <el-page-header @back="goBack" content="确认预约界面" style="margin-left: 168px">
+          <el-page-header @back="goBack" content="医技预约确认界面" style="margin-left: 168px">
           </el-page-header>
-          <div style="display: flex;justify-content: center">
-
+          <div style="display: flex;justify-content: left;margin-left:100px;margin-right:100px">
+            <el-container>
+              <el-main>
+                <div class="title">
+                  预约信息
+                </div>
+              </el-main>
+            </el-container>
             <div style="display: flex;justify-content: left">
 
               <div class="appointment-content">
@@ -20,15 +26,13 @@
                 <div class="patient-content">
                   <div class="patient-msg el-row is-justify-space-around el-row--flex">
                     <div class="el-col el-col-24">
-                      <div>就诊时间：{{dateStr}}&nbsp;&nbsp;{{ sliceStr }}</div>
-                      <div>科室：{{ departmentName }}</div>
-                      <div>医生姓名：{{ doctorName }}</div>
-                      <div>费用：{{ cost }}元</div>
+                      <div>检查时间：{{ date }}--{{ time }}</div>
+                      <div>医疗技术：{{ tech }}</div>
                     </div>
                   </div>
                   <div class="patient-msg el-row is-justify-space-around el-row--flex">
                     <div class="el-col el-col-24">
-                      <div>就诊人：{{realName}}</div>
+                      <div>预约人：{{ realName }}</div>
 
                       <div style="margin-top: 10px;">
                         <mu-alert color="info" style="font-size:24px">温馨提醒</mu-alert>
@@ -41,7 +45,7 @@
           </span></div>
                         <div>
                           <button type="button"
-                                  class="el-button appointment-btn appointment-btn-sdql el-button--primary" @click="submitOrder">
+                                  class="el-button appointment-btn appointment-btn-sdql el-button--primary" @click="sendVerificationCode">
                             <span>确认预约</span></button>
                         </div>
                       </div>
@@ -70,98 +74,71 @@ export default {
   components: {NavMenu, MyHeader},
   data() {
     return {
-      doctorId: 0,
-      day: 0,
-      timeSlice: 0,
-      cost: 20,
-      realName: '',
       input: '',
-      sliceStr: '',
-      dateStr: '',
-      departmentName: '',
-      doctorName: '',
+      date: '',
+      time: '',
+      tech: '',
       input1: '',
-      FormData: {
-        name: '理塘丁真',
-        age: '6324',
-        depart: '华科',
-        job: '主治医师',
-        information: '大家好我是理塘丁真，这是我的小马 珍珠',
-        ordertime: [
-          {
-            date: '03/20',
-            time: '上午',
-            remain_1: '5',
-            remain_2: '4',
-            remain_3: '2'
-          },
-          {
-            date: '03/23',
-            time: '下午',
-            remain_1: '9',
-            remain_2: '1',
-            remain_3: '7',
-          }
-        ]
-      }
-
+      noon: '',
+      day: '',
+      patientId: '',
+      orderId: '',
+      realName: '王小虎'
     }
-  },
-  mounted() {
-    this.sliceStr = this.$route.query.sliceStr
-    this.dateStr = this.$route.query.dateStr
-    this.departmentName = this.$route.query.departmentName
-    this.doctorName = this.$route.query.doctorName
-    this.doctorId = this.$route.query.doctorId
-    this.day = this.$route.query.day
-    this.timeSlice = this.$route.query.timeSlice
   },
   created() {
     this.getRealName()
   },
+  mounted() {
+    this.time = this.$route.query.time
+    this.date = this.$route.query.date
+    this.tech = this.$route.query.tech
+    this.day = this.$route.query.day
+    this.orderId = this.$route.query.orderId
+    if (this.time === '上午') {
+      this.noon = 1
+    } else {
+      this.noon = 2
+    }
+  },
   methods: {
-    goBack() {
-      this.$router.push({path:'/DocDetail', query:{doctorId: this.doctorId, departmentId: this.$route.query.departmentId}})
-    },
-    getRealName(){
+    getRealName() {
       let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
-      if (user){
+      if (user) {
+        this.patientId = user.userId
         this.request.get('/patient/patientInfo/realName/' + user.username).then(res => {
-          if (res.code === '200'){
+          if (res.code === '200') {
             this.realName = res.data
-          }else{
+          } else {
             this.$message.error(res.msg);
           }
         })
-      }else{
+      } else {
         this.$message('请先进行登录!')
         this.$router.push('/')
       }
     },
-    submitOrder(){
-      let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
-      if (user){
-        this.request.post('/order/appointment', {
-          patientName: user.username,
-          doctorId: this.doctorId,
-          orderDay: this.day,
-          orderTimeSlice: this.timeSlice,
-          cost: this.cost
-        }).then(res => {
-          if (res.code === '200'){
-            this.$message({
-              message: '添加成功',
-              type: 'success'
-            })
-            this.$router.push('/OrderQuery')
-          }else{
-            this.$message.error(res.msg)
-          }
-        })
-      }else{
-        this.$message('请先进行登录!')
-        this.$router.push('/')
-      }
+    goBack() {
+      this.$router.push({path: '/TechScheduling', query: {tech: this.tech, orderId: this.orderId}})
+    },
+    sendVerificationCode() {
+      this.request.post('/medicalResource/appointment', {
+        patientId: this.patientId,
+        orderId: this.orderId,
+        medResName: this.tech,
+        day: this.day,
+        noon: this.noon
+      }).then(res => {
+        if (res.code === '200') {
+          this.$message({
+            message: '预约成功',
+            type: 'success'
+          })
+          this.$router.push('/TechQuery')
+        } else {
+          this.$message(res.msg)
+        }
+      })
     }
   }
 }

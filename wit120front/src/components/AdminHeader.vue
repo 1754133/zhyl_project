@@ -4,11 +4,10 @@
       <span :class="collapseBtnClass" style="cursor: pointer" @click="collapse"></span>
     </div>
     <el-dropdown style="width: 70px; cursor: pointer">
-      <span>王小虎</span>
+      <span>{{username}}</span>
       <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>个人信息</el-dropdown-item>
-        <el-dropdown-item>退出登录</el-dropdown-item>
+        <el-dropdown-item @click.native="quit">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
 
@@ -23,10 +22,27 @@ export default {
       isCollapse: false,
       logoTextShow: true,
       collapseBtnClass: 'el-icon-s-fold',
-      sideWidth: 200
+      sideWidth: 200,
+      username: ''
     }
   },
+  created(){
+    this.setUsername()
+  },
   methods:{
+    quit(){
+      localStorage.removeItem("user")
+      this.$router.push('/')
+    },
+    setUsername(){
+      let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+      if (user){
+        this.username = user.username
+      }else{
+        this.$message('请先登录')
+        this.$router.push('/')
+      }
+    },
     collapse(){//点击收缩按钮触发
       this.isCollapse = !this.isCollapse
       this.logoTextShow = !this.logoTextShow

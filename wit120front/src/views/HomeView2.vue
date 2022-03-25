@@ -1,8 +1,10 @@
 <template>
   <div style="height: 100%">
     <el-container style="height: 100%" direction="vertical">
-      <MyHeader></MyHeader>
-      <NavMenu isActive="1"></NavMenu>
+      <MyHeader @changePermission="changePermission"></MyHeader>
+      <NavMenu isActive="1" v-if="permission === 1 || permission === 0"></NavMenu>
+      <DocNavMenu isActive="1" v-if="permission === 2"></DocNavMenu>
+      <DocNavMenu1 isActive="1" v-if="permission === 4"></DocNavMenu1>
       <el-main style="background-color: #FFFFFF">
         <div>
           <mu-carousel transition="fade" style="height: 836px">
@@ -84,9 +86,30 @@
 <script>
 import MyHeader from "@/components/MyHeader";
 import NavMenu from "@/components/NavMenu";
+import DocNavMenu from "@/components/DocNavMenu";
+import DocNavMenu1 from "@/components/DocNavMenu1";
 export default {
   name: "HomeView2",
-  components: {NavMenu, MyHeader}
+  components: {DocNavMenu1, DocNavMenu, NavMenu, MyHeader},
+  data(){
+    return{
+      permission: 0
+    }
+  },
+  created() {
+    this.judgePermission()
+  },
+  methods:{
+    judgePermission(){
+      let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+      if (user){
+        this.permission = user.permission
+      }
+    },
+    changePermission(permission){
+      this.permission = permission
+    }
+  }
 }
 </script>
 

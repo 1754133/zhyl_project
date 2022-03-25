@@ -12,6 +12,18 @@ import DepartmentManage from "@/views/DepartmentManage";
 import DocDetail from "@/views/DocDetail";
 import MedicalTechnicianManage from "@/views/MedicalTechnicianManage";
 import ConfirmOrderView from "@/views/ConfirmOrderView";
+import PatientInfoView from "@/views/PatientInfoView";
+import DepartmentIntro from "@/views/DepartmentIntro";
+import DepartmentDetail from "@/views/DepartmentDetail";
+import OrderQuery from "@/views/OrderQuery";
+import RecipeView from "@/views/RecipeView";
+import TechOrder from "@/views/TechOrder";
+import DocDetail1 from "@/views/DocDetail1";
+import TechScheling from "@/views/TechScheling";
+import TechConfirm from "@/views/TechConfirm";
+import TechQuery from "@/views/TechQuery";
+import DocDetail2 from "@/views/DocDetail2";
+import DocTechQuery from "@/views/DocTechQuery"
 
 Vue.use(VueRouter)
 
@@ -19,6 +31,11 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    component: HomeView2
+  },
+  {
+    path: '/DoctorManage',
+    name: 'doctorManage',
     component: DoctorManage
   },
   {
@@ -70,6 +87,66 @@ const routes = [
     path: '/ConfirmOrderView',
     name: 'confirmOrderView',
     component: ConfirmOrderView
+  },
+  {
+    path: '/PatientInfoView',
+    name: 'patientInfoView',
+    component: PatientInfoView
+  },
+  {
+    path: '/DepartmentIntro',
+    name: 'departmentIntro',
+    component: DepartmentIntro
+  },
+  {
+    path: '/DepartmentDetail',
+    name: 'departmentDetail',
+    component: DepartmentDetail
+  },
+  {
+    path: '/OrderQuery',
+    name: 'orderQuery',
+    component: OrderQuery
+  },
+  {
+    path: '/Recipe',
+    name: 'recipeView',
+    component: RecipeView
+  },
+  {
+    path: '/TechOrder',
+    name: 'TechOrder',
+    component: TechOrder
+  },
+  {
+    path: '/DocDetail1',
+    name: 'docDetail1',
+    component: DocDetail1
+  },
+  {
+    path: '/TechScheduling',
+    name: 'techScheduling',
+    component: TechScheling
+  },
+  {
+    path: '/TechConfirm',
+    name: 'techConfirm',
+    component: TechConfirm
+  },
+  {
+    path: '/TechQuery',
+    name: 'techQuery',
+    component: TechQuery
+  },
+  {
+    path: '/DocDetail2',
+    name: 'docDetail2',
+    component: DocDetail2
+  },
+  {
+    path: '/DocTechQuery',
+    name: 'docTechQuery',
+    component: DocTechQuery
   }
 ]
 
