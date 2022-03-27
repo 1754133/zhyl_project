@@ -71,6 +71,9 @@ export default {
         case '1-2':
           this.$router.push('/DocAccountManage')
           break
+        case '2':
+          this.$router.push('/DepartmentShiftManage')
+          break
         case '3':
           this.$router.push('/DepartmentManage')
           break

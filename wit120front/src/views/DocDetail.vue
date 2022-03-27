@@ -57,31 +57,31 @@
                     <th width="80">时段</th>
                     <th class="">
                       <div>{{ CalWeekDay(this.weekday) }}</div>
-                      <div>{{ this.month + '/' + this.day }}</div>
+                      <div>{{CalDate(this.month,this.day)}}</div>
                     </th>
                     <th class="">
                       <div>{{ CalWeekDay(this.weekday + 1) }}</div>
-                      <div>{{ this.month + '/' + (this.day + 1) }}</div>
+                      <div>{{CalDate(this.month,this.day+1)}}</div>
                     </th>
                     <th class="">
                       <div>{{ CalWeekDay(this.weekday + 2) }}</div>
-                      <div>{{ this.month + '/' + (this.day + 2) }}</div>
+                      <div>{{CalDate(this.month,this.day+2)}}</div>
                     </th>
                     <th class="">
                       <div>{{ CalWeekDay(this.weekday + 3) }}</div>
-                      <div>{{ this.month + '/' + (this.day + 3) }}</div>
+                      <div>{{CalDate(this.month,this.day+3)}}</div>
                     </th>
                     <th class="">
                       <div>{{ CalWeekDay(this.weekday + 4) }}</div>
-                      <div>{{ this.month + '/' + (this.day + 4) }}</div>
+                      <div>{{CalDate(this.month,this.day+4)}}</div>
                     </th>
                     <th class="">
                       <div>{{ CalWeekDay(this.weekday + 5) }}</div>
-                      <div>{{ this.month + '/' + (this.day + 5) }}</div>
+                      <div>{{CalDate(this.month,this.day+5)}}</div>
                     </th>
                     <th class="">
                       <div>{{ CalWeekDay(this.weekday + 6) }}</div>
-                      <div>{{ this.month + '/' + (this.day + 6) }}</div>
+                      <div>{{CalDate(this.month,this.day+6)}}</div>
                     </th>
                   </tr>
                   <tr>
@@ -262,7 +262,7 @@
 
                 <div class="first" style="margin-left: 127px">
                   选择号源
-                  <span v-if="noon !== ''">--{{ this.month + '/' + (this.day + (this.day1 - this.weekday + 7) % 7) }}</span> / {{ this.noon }}
+                  <span v-if="noon !== ''">--{{ CalDate(this.month, this.day + (this.day1 - this.weekday + 7) % 7)}}</span> / {{ this.noon }}
                 </div>
                   <div v-if="noon1 === 1" style="display: flex;justify-content: center;margin-top: 50px">
                     <mu-button full-width style="width: 25%;height:30%" color="success" @click="getOrder(FormData.doctorId, day1, 1, sliceNum1, '8:00--9:00')">
@@ -364,6 +364,40 @@ export default {
           return '周日'
         }
       }
+    },
+    CalDate() {
+      return function (month, day) {
+        if (month === 2) {
+          if (day > 28) {
+            month = (month + 1) % 12
+            day = day % 28
+
+          }
+        } else if (month === 1 || month === 3 || month === 5 || month === 8 || month === 10) {
+          if (day > 31) {
+            month = (month + 1) % 12
+            day = day % 31
+
+          }
+        } else if (month === 7 || month === 12) {
+          if (day > 31) {
+            month = (month + 1) % 12
+            day = day % 31
+          }
+        } else {
+          if (day > 30) {
+            month = (month + 1) % 12
+            day = day % 30
+          }
+        }
+        if (month >= 1 && month <= 9) {
+          month = "0" + month;
+        }
+        if (day >= 1 && day <= 9) {
+          day = "0" + day;
+        }
+        return month + '/' + day
+      }
     }
   },
 
@@ -437,7 +471,7 @@ export default {
       if (sliceNum >= 4){
         this.$message.error("该时间段预约人数已满")
       }else{
-        let dateStr = this.month + '/' + (this.day + (this.day1 - this.weekday + 7) % 7) + '/' + this.noon
+        let dateStr = this.CalDate(this.month, this.day + (this.day1 - this.weekday + 7) % 7) + '/' + this.noon
         this.$router.push({path:'/ConfirmOrderView',
           query : {
             doctorId: doctorId,
@@ -457,12 +491,6 @@ export default {
       var seperator1 = "-";
       var month = date.getMonth() + 1;
       var strDate = date.getDate();
-      if (month >= 1 && month <= 9) {
-        month = "0" + month;
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-      }
       this.day = strDate
       this.month = month
     },

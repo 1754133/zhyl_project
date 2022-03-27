@@ -18,11 +18,11 @@
       <MyLogin :isVisible1="dialogFormVisible1" @changeVisible="changeVisible" @changeUsername="changeUsername" @changeAuthentication="changeAuthentication"></MyLogin>
     </div>
     <el-dropdown style="margin-left: 200px" v-if="Authentication===true">
-      <el-button type="text" style="font-size: 25px">{{ username }}</el-button>
+      <el-button type="text" style="font-size: 20px">{{ username }}</el-button>
       <el-dropdown-menu>
-        <el-dropdown-item style="font-size: 25px" @click.native="infoView" v-if="permission === 1">个人信息</el-dropdown-item>
-        <el-dropdown-item style="font-size: 25px;margin-top: 10px" @click.native="passwordView">修改密码</el-dropdown-item>
-        <el-dropdown-item style="font-size: 25px; margin-top: 10px" @click.native="quit">退出登录</el-dropdown-item>
+        <el-dropdown-item style="font-size: 20px" @click.native="infoView" v-if="permission === 1">个人信息</el-dropdown-item>
+        <el-dropdown-item style="font-size: 20px;margin-top: 10px" @click.native="passwordView">修改密码</el-dropdown-item>
+        <el-dropdown-item style="font-size: 20px; margin-top: 10px" @click.native="quit">退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </el-header>

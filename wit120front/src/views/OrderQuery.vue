@@ -75,8 +75,8 @@
                       <span v-if="scope.row.deal==='否'"><el-button type="danger"
                                                                      @click="deleteRow(scope.row.orderId)">取消预约</el-button></span>
                       <span v-if="scope.row.deal==='是'"><el-button type="danger" disabled>取消预约</el-button></span>
-                      <el-button v-if="scope.row.deal==='是'" @click="handleClick2(scope.row.orderId)" type="primary">医技预约</el-button>
-                      <el-button v-if="scope.row.deal==='否'" @click="handleClick2(scope.row.orderId)" type="primary" disabled>医技预约</el-button>
+                      <el-button v-if="scope.row.deal==='是' && scope.row.orderTime === todayDate" @click="handleClick2(scope.row.orderId)" type="primary">医技预约</el-button>
+                      <el-button v-if="scope.row.deal==='否' || scope.row.orderTime !== todayDate" @click="handleClick2(scope.row.orderId)" type="primary" disabled>医技预约</el-button>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -120,13 +120,26 @@ export default {
       medicalrecord: '',
       prescription: '',
       patientId: '',
-      tableData: []
+      tableData: [],
+      todayDate: ''
     }
   },
   mounted() {
+    this.todayDate = this.getCurrentDate()
     this.getTableData()
   },
   methods: {
+    getCurrentDate(n) {
+      let dd = new Date();
+      if (n) {
+        dd.setDate(dd.getDate() - n);
+      }
+      let year = dd.getFullYear();
+      let month =
+          dd.getMonth() + 1 < 10 ? "0" + (dd.getMonth() + 1) : dd.getMonth() + 1;
+      let day = dd.getDate() < 10 ? "0" + dd.getDate() : dd.getDate();
+      return year + "-" + month + "-" + day;
+    },
     handleClick2(orderId){
       this.$router.push({path: '/TechOrder', query: {orderId: orderId}})
     },

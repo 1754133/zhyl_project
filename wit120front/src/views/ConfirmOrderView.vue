@@ -148,6 +148,7 @@ export default {
           orderTimeSlice: this.timeSlice,
           cost: this.cost
         }).then(res => {
+          console.log(res)
           if (res.code === '200'){
             this.$message({
               message: '添加成功',

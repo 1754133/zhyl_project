@@ -24,31 +24,31 @@
                   <th width="80">时段</th>
                   <th class="">
                     <div>{{ CalWeekDay(this.weekday) }}</div>
-                    <div>{{ this.month + '/' + this.day }}</div>
+                    <div>{{CalDate(this.month,this.day)}}</div>
                   </th>
                   <th class="">
                     <div>{{ CalWeekDay(this.weekday + 1) }}</div>
-                    <div>{{ this.month + '/' + (this.day + 1) }}</div>
+                    <div>{{CalDate(this.month,this.day+1)}}</div>
                   </th>
                   <th class="">
                     <div>{{ CalWeekDay(this.weekday + 2) }}</div>
-                    <div>{{ this.month + '/' + (this.day + 2) }}</div>
+                    <div>{{CalDate(this.month,this.day+2)}}</div>
                   </th>
                   <th class="">
                     <div>{{ CalWeekDay(this.weekday + 3) }}</div>
-                    <div>{{ this.month + '/' + (this.day + 3) }}</div>
+                    <div>{{CalDate(this.month,this.day+3)}}</div>
                   </th>
                   <th class="">
                     <div>{{ CalWeekDay(this.weekday + 4) }}</div>
-                    <div>{{ this.month + '/' + (this.day + 4) }}</div>
+                    <div>{{CalDate(this.month,this.day+4)}}</div>
                   </th>
                   <th class="">
                     <div>{{ CalWeekDay(this.weekday + 5) }}</div>
-                    <div>{{ this.month + '/' + (this.day + 5) }}</div>
+                    <div>{{CalDate(this.month,this.day+5)}}</div>
                   </th>
                   <th class="">
                     <div>{{ CalWeekDay(this.weekday + 6) }}</div>
-                    <div>{{ this.month + '/' + (this.day + 6) }}</div>
+                    <div>{{CalDate(this.month,this.day+6)}}</div>
                   </th>
                 </tr>
                 <tr>
@@ -60,7 +60,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===(month+'/'+day)"><span><span
+                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===CalDate(month, day)"><span><span
                           class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                            @click="goNext(item,weekday)"
                                                                            aria-describedby="el-popover-5969"
@@ -71,7 +71,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===(month+'/'+(day+1))">
+                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===CalDate(month, day + 1)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+1)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -82,7 +82,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===(month+'/'+(day+2))">
+                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===CalDate(month, day + 2)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+2)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -92,7 +92,7 @@
                   </td>
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===(month+'/'+(day+3))">
+                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===CalDate(month, day + 3)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+3)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -102,7 +102,7 @@
                   </td>
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===(month+'/'+(day+4))">
+                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===CalDate(month, day + 4)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+4)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -113,7 +113,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===(month+'/'+(day+5))">
+                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===CalDate(month, day + 5)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+5)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -124,7 +124,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===(month+'/'+(day+6))">
+                      <div v-for="item in tableData" v-if="item.time==='上午'&&item.date===CalDate(month, day + 6)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+6)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -141,7 +141,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===(month+'/'+day)"><span><span
+                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===CalDate(month, day)"><span><span
                           class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                            @click="goNext(item,weekday)"
                                                                            aria-describedby="el-popover-5969"
@@ -152,7 +152,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===(month+'/'+(day+1))">
+                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===CalDate(month, day + 1)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+1)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -163,7 +163,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===(month+'/'+(day+2))">
+                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===CalDate(month, day + 2)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+2)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -174,7 +174,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='下午' &&item.date===(month+'/'+(day+3))">
+                      <div v-for="item in tableData" v-if="item.time==='下午' &&item.date===CalDate(month, day + 3)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+3)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -185,7 +185,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===(month+'/'+(day+4))">
+                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===CalDate(month, day + 4)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+4)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -196,7 +196,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===(month+'/'+(day+5))">
+                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===CalDate(month, day + 5)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+5)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -207,7 +207,7 @@
 
                   <td class="doctor-td">
                     <div class="doctor-box">
-                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===(month+'/'+(day+6))">
+                      <div v-for="item in tableData" v-if="item.time==='下午'&&item.date===CalDate(month, day + 6)">
                         <span><span class="el-popover__reference-wrapper"><el-button type="text" style="font-size: 15px"
                                                                                      @click="goNext(item,(weekday+6)%7)"
                                                                                      aria-describedby="el-popover-5969"
@@ -248,6 +248,7 @@ export default {
     this.tech = this.$route.query.tech
     this.orderId = this.$route.query.orderId
     this.getdate()
+    this.getTableData(this.month, this.day)
   },
   computed: {
     CalWeekDay() {
@@ -269,9 +270,89 @@ export default {
           return '周日'
         }
       }
+    },
+    CalDate() {
+      return function (month, day) {
+        if (month === 2) {
+          if (day > 28) {
+            month = (month + 1) % 12
+            day = day % 28
+
+          }
+        } else if (month === 1 || month === 3 || month === 5 || month === 8 || month === 10) {
+          if (day > 31) {
+            month = (month + 1) % 12
+            day = day % 31
+
+          }
+        } else if (month === 7 || month === 12) {
+          if (day > 31) {
+            month = (month + 1) % 12
+            day = day % 31
+          }
+        } else {
+          if (day > 30) {
+            month = (month + 1) % 12
+            day = day % 30
+          }
+        }
+        if (month >= 1 && month <= 9) {
+          month = "0" + month;
+        }
+        if (day >= 1 && day <= 9) {
+          day = "0" + day;
+        }
+        return month + '/' + day
+      }
     }
   },
   methods: {
+    getTableData(month, day){
+      this.tableData = [{
+        time: '上午',
+        date: this.CalDate(month, day)
+      }, {
+        time: '下午',
+        date: this.CalDate(month, day)
+      }, {
+        time: '上午',
+        date: this.CalDate(month, day + 1)
+      }, {
+        time: '下午',
+        date: this.CalDate(month, day + 1)
+      }, {
+        time: '上午',
+        date: this.CalDate(month, day + 2)
+      }, {
+        time: '下午',
+        date: this.CalDate(month, day + 2)
+      }, {
+        time: '上午',
+        date: this.CalDate(month, day + 3)
+      }, {
+        time: '下午',
+        date: this.CalDate(month, day + 3)
+      }, {
+        time: '上午',
+        date: this.CalDate(month, day + 4)
+      }, {
+        time: '下午',
+        date: this.CalDate(month, day + 4)
+      }, {
+        time: '上午',
+        date: this.CalDate(month, day + 5)
+      }, {
+        time: '下午',
+        date: this.CalDate(month, day + 5)
+      }, {
+        time: '上午',
+        date: this.CalDate(month, day + 6)
+      }, {
+        time: '下午',
+        date: this.CalDate(month, day + 6)
+      }
+      ]
+    },
     goBack() {
       this.$router.push('/TechOrder')
     },
@@ -302,59 +383,8 @@ export default {
       var seperator1 = "-";
       var month = date.getMonth() + 1;
       var strDate = date.getDate();
-      if (month >= 1 && month <= 9) {
-        month = "0" + month;
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-      }
       this.day = strDate
       this.month = month
-      this.date = month + '/' + strDate;
-      this.tableData = [{
-        time: '上午',
-        date: this.month + '/' + this.day
-      }, {
-        time: '下午',
-        date: this.month + '/' + this.day
-      }, {
-        time: '上午',
-        date: this.month + '/' + (this.day + 1)
-      }, {
-        time: '下午',
-        date: this.month + '/' + (this.day + 1)
-      }, {
-        time: '上午',
-        date: this.month + '/' + (this.day + 2)
-      }, {
-        time: '下午',
-        date: this.month + '/' + (this.day + 2)
-      }, {
-        time: '上午',
-        date: this.month + '/' + (this.day + 3)
-      }, {
-        time: '下午',
-        date: this.month + '/' + (this.day + 3)
-      }, {
-        time: '上午',
-        date: this.month + '/' + (this.day + 4)
-      }, {
-        time: '下午',
-        date: this.month + '/' + (this.day + 4)
-      }, {
-        time: '上午',
-        date: this.month + '/' + (this.day + 5)
-      }, {
-        time: '下午',
-        date: this.month + '/' + (this.day + 5)
-      }, {
-        time: '上午',
-        date: this.month + '/' + (this.day + 6)
-      }, {
-        time: '下午',
-        date: this.month + '/' + (this.day + 6)
-      },
-      ]
     }
   }
 

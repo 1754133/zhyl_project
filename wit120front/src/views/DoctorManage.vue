@@ -14,11 +14,6 @@
             <el-input style="width: 200px" suffix-icon="el-icon-search" v-model="doctorName"></el-input>
             <el-button style="margin-left: 5px" type="primary" @click="search">搜索</el-button>
           </div>
-<!--          <div style="margin: 10px 0">
-            <el-button type="primary">新增<i class="el-icon-circle-plus-outline"></i></el-button>
-            <el-button type="primary">导入<i class="el-icon-bottom"></i></el-button>
-            <el-button type="primary">导出<i class="el-icon-top"></i></el-button>
-          </div>-->
           <el-table :data="tableData" border stripe header-cell-class-name="headerBg">
             <el-table-column prop="docInfoId" label="编号">
             </el-table-column>

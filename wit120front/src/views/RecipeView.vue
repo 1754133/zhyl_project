@@ -108,50 +108,33 @@
           </div>
           <div style="display: flex;justify-content: center;margin-top: 30px">
             <el-button type="primary" @click="showOrderRecord">查看检查结果</el-button>
-            <el-button @click="">
+            <el-button @click="dialogVisible = true">
               安排患者入院
             </el-button>
           </div>
-          <!--          <el-button type="text" @click="dialogVisible = true" style="margin-left: 168px;font-size: 20px">点击推荐医技</el-button>-->
         </div>
+        <el-dialog title="新增住院信息" :visible.sync="dialogVisible" width="35%">
+          <el-form :model="form1" :rules="rules" ref="newHospitaliseForm">
+            <el-form-item label="病房号" :label-width="formLabelWidth" prop="wardId">
+              <el-select v-model="form1.wardId" placeholder="请选择病房号" style="width: 300px" @click.native="showWard"
+                         clearable filterable>
+                <el-option v-for="(name, index) in wardIdList" :label="name" :value="name" :key="index"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="床位号" :label-width="formLabelWidth" prop="bedId">
+              <el-select v-model="form1.bedId" placeholder="请选择床位号" style="width: 300px" @click.native="showBed"
+                         clearable>
+                <el-option v-for="(name, index) in bedIdList" :label="name" :value="name" :key="index"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button type="danger" @click="dialogVisible=false">取 消</el-button>
+            <el-button type="primary" @click="submitAdd">确定</el-button>
+          </div>
+        </el-dialog>
       </el-main>
     </el-container>
-<!--    <el-dialog
-        title="选择你推荐的医技资源"
-        :visible.sync="dialogVisible"
-        width="30%"
-        :before-close="handleClose"
-        :append-to-body="true"
-    >
-      <el-form :model="form" label-width="80px">
-        <el-form-item
-            v-for="(domain, index) in dynamicValidateForm.domains1"
-            :label="'医技' + (index + 1)"
-            :key="domain.key"
-            :prop="'domains1.' + index + '.value'"
-            :rules="{
-            required: true, message: '医技名不能为空', trigger: 'blur'
-          }"
-        >
-          <el-select v-model="technician[index]" placeholder="请选择具体医技" @click.native="showTechnicianName">
-            <el-option v-for="(name, index) in technicianNameList" :label="name" :value="name" :key="index"></el-option>
-          </el-select>
-          <el-button @click.prevent="removeDomain1(domain)">
-            删除
-          </el-button>
-        </el-form-item>
-
-        <el-form-item>
-          <el-button @click="addDomain1">
-            新增医技
-          </el-button>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitTechnician">确 定</el-button>
-      </div>
-    </el-dialog>-->
   </div>
 </template>
 
@@ -164,12 +147,15 @@ export default {
   components: {DocNavMenu, MyHeader},
   data() {
     return {
+      formLabelWidth: '120px',
       patientId: 0,
       patientName: '',
       patientGender: '',
       orderId: 0,
       drugNameList: [],
       technicianNameList: [],
+      wardIdList: [],
+      bedIdList: [],
       form: {
         name: '',
         region: '',
@@ -182,6 +168,10 @@ export default {
         input3: '',
         select: '',
         medinum: 1,
+      },
+      form1: {
+        wardId: '',
+        bedId: ''
       },
       dialogVisible: false,
       FormData: {
@@ -203,7 +193,15 @@ export default {
       },
       drug: [],
       num: [],
-      technician: []
+      technician: [],
+      rules: {
+        wardId: [
+          {required: true, message: '请选择病房号', trigger: 'change'}
+        ],
+        bedId: [
+          {required: true, message: '请选择床位号', trigger: 'change'}
+        ]
+      }
     }
   },
   created() {
@@ -213,8 +211,60 @@ export default {
     this.showCaseHistory()
   },
   methods: {
-    showOrderRecord(){
-      this.$router.push({path:'/OrderQuery1',query : {orderId: this.orderId, patientId: this.patientId}})
+    submitAdd() {
+      this.$refs['newHospitaliseForm'].validate((valid) => {
+        if (valid) {
+          let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+          if (user) {
+            this.request.post('/ward/wardInfo', {
+              wardId: this.form1.wardId,
+              bedId: this.form1.bedId,
+              patientId: this.patientId,
+              principalId: user.userId
+            }).then(res => {
+              if (res.code === '200') {
+                this.$message({
+                  message: '添加成功',
+                  type: 'success'
+                })
+                this.dialogVisible = false
+              } else {
+                this.$message.error(res.msg)
+              }
+            })
+          } else {
+            this.$message('请先进行登录!')
+            this.$router.push('/')
+          }
+        } else {
+          return false
+        }
+      })
+    },
+    showWard() {
+      this.request.get('/ward/emptyWard').then(res => {
+        if (res.code === '200') {
+          this.wardIdList = res.data
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
+    showBed() {
+      if (this.form1.wardId === '') {
+        this.$message.error("请先选择房间号")
+      } else {
+        this.request.get('/ward/emptyWard/' + this.form1.wardId).then(res => {
+          if (res.code === '200') {
+            this.bedIdList = res.data
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+      }
+    },
+    showOrderRecord() {
+      this.$router.push({path: '/OrderQuery1', query: {orderId: this.orderId, patientId: this.patientId}})
     },
     submitTechnician() {
       let technicianStr = ''
@@ -236,13 +286,13 @@ export default {
         }
       })
     },
-    showPatientInfo(){
+    showPatientInfo() {
       this.request.get('/patient/' + this.patientId).then(res => {
-        if (res.code === '200'){
+        if (res.code === '200') {
           this.patientName = res.data.realName
-          if (res.data.gender === true){
+          if (res.data.gender === true) {
             this.patientGender = '男'
-          }else{
+          } else {
             this.patientGender = '女'
           }
         }
