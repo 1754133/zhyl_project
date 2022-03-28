@@ -26,7 +26,7 @@
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <el-button type="primary" @click="goNext(scope.row.departmentId)">查看排班<i class="el-icon-date"></i></el-button>
+                <el-button type="primary" @click="goNext(scope.row)">查看排班<i class="el-icon-date"></i></el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -103,7 +103,7 @@ export default {
           this.pageNum = 1
           this.isAll = false
         }
-        this.request.get('/department/page/' + this.departmentName + '/' + this.pageNum + '/' + this.pageSize).then(res => {
+        this.request.get('/department/shift/' + this.departmentName + '/' + this.pageNum + '/' + this.pageSize).then(res => {
           if (res.code === '200'){
             this.tableData = res.data.tableList
             this.total = res.data.total
@@ -113,8 +113,13 @@ export default {
         })
       }
     },
-    goNext(departmentId){
-      this.$router.push({path: '/DepartmentShiftDetail', query: {departmentId: departmentId}})
+    goNext(row){
+      if (row.doctorNum === 0){
+        this.$message.error('无坐班信息')
+      }else{
+        this.$router.push({path: '/DepartmentShiftDetail', query: {departmentId: row.departmentId, departmentName: row.departmentName}})
+      }
+
     }
   }
 }

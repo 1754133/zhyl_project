@@ -7,11 +7,6 @@
         <div style="height: 100%">
           <el-page-header @back="goBack" content="选择科室界面" style="margin-left: 145px">
           </el-page-header>
-<!--          <el-input placeholder="请输入医生姓名" v-model="input1" style="width: 20%;margin-left: 1057px;margin-top: 20px">
-            <el-button slot="append" icon="el-icon-search"></el-button>
-          </el-input>-->
-
-<!--          <div style="display: flex;justify-content: left;margin-top: 50px;margin-left:200px">-->
           <div style="display: flex;justify-content: center;margin-top: 50px">
             <el-container>
               <el-container>
@@ -405,7 +400,6 @@ export default {
     showTableData(){
       this.request.get('/doctor/conciseShiftInfo/' + this.FormData.doctorId).then(res => {
         if (res.code === '200'){
-          console.log(res.data)
           this.FormData.ordertime = res.data
         }else{
           this.$message.error(res.msg)

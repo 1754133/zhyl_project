@@ -28,6 +28,7 @@ import OrderQuery1 from "@/views/OrderQuery1";
 import TechQuery1 from "@/views/TechQuery1";
 import DepartmentShiftManage from "@/views/DepartmentShiftManage";
 import DepartmentShiftDetail from "@/views/DepartmentShiftDetail";
+import DocShiftManage from "@/views/DocShiftManage";
 
 Vue.use(VueRouter)
 
@@ -171,6 +172,11 @@ const routes = [
     path: '/DepartmentShiftDetail',
     name: 'departmentShiftDetail',
     component: DepartmentShiftDetail
+  },
+  {
+    path: '/DocShiftManage',
+    name: 'docShiftManage',
+    component: DocShiftManage
   }
 ]
 
