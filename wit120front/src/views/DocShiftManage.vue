@@ -234,8 +234,8 @@
       </el-container>
       <el-dialog title="新增坐诊信息" :visible.sync="dialogFormVisible" width="35%">
         <el-form :model="form" :rules="rules" ref="newShiftForm">
-          <el-form-item label="周几值班" :label-width="formLabelWidth" prop="day">
-            <el-select v-model="form.day" placeholder="请选择周几" style="width: 300px" clearable>
+          <el-form-item label="值班日" :label-width="formLabelWidth" prop="day">
+            <el-select v-model="form.day" placeholder="请选择值班日" style="width: 300px" clearable>
               <el-option label="周一" :value="1"></el-option>
               <el-option label="周二" :value="2"></el-option>
               <el-option label="周三" :value="3"></el-option>

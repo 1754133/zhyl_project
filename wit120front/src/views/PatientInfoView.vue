@@ -7,9 +7,6 @@
         <div style="height: 100%">
           <el-page-header @back="goBack" content="患者预约管理界面" style="margin-left: 168px">
           </el-page-header>
-          <el-input placeholder="请输入查询信息" v-model="input1" style="width: 20%;margin-left: 1057px;margin-top: 10px">
-            <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
-          </el-input>
           <div style="display: flex;justify-content: center;margin-top: 30px">
             <div style="display: flex;justify-content: center;width: 79%">
               <el-table

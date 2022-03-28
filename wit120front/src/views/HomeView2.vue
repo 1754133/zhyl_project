@@ -104,6 +104,9 @@ export default {
       let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
       if (user){
         this.permission = user.permission
+        if (this.permission === 3){
+          this.$router.push('/DoctorManage')
+        }
       }
     },
     changePermission(permission){

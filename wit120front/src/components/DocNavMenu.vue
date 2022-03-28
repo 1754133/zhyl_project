@@ -5,7 +5,7 @@
       <el-menu-item index="2" style="font-size: 20px">科室导航</el-menu-item>
       <el-menu-item index="3" style="font-size: 20px">患者信息</el-menu-item>
       <el-menu-item index="4" style="font-size: 20px">坐诊排班</el-menu-item>
-      <el-menu-item index="6" style="font-size: 20px">查阅病房</el-menu-item>
+      <el-menu-item index="5" style="font-size: 20px">查阅病房</el-menu-item>
       
     </el-menu>
   </el-header>
@@ -34,6 +34,9 @@ export default {
           break
         case "4":
           this.$router.push('/DocDetail2')
+          break
+        case "5":
+          this.$router.push('/WardQuery')
           break
       }
     }
