@@ -30,6 +30,7 @@ import DepartmentShiftManage from "@/views/DepartmentShiftManage";
 import DepartmentShiftDetail from "@/views/DepartmentShiftDetail";
 import DocShiftManage from "@/views/DocShiftManage";
 import WardQuery from "@/views/WardQuery";
+import AboutView from "@/views/AboutView";
 
 Vue.use(VueRouter)
 
@@ -183,6 +184,11 @@ const routes = [
     path: '/WardQuery',
     name: 'wardQuery',
     component: WardQuery
+  },
+  {
+    path: '/AboutView',
+    name: 'aboutView',
+    component: AboutView
   }
 ]
 

@@ -166,26 +166,30 @@ export default {
     register(){
       this.$refs['registerForm'].validate((valid) => {
         if (valid) {
-          this.request.post('/user', {
-            username: this.form2.username,
-            password: this.form2.password,
-            phone: this.form2.phone,
-            code: this.form2.verificationCode
-          }).then(res => {
-            if (res.code === '200') {
-              localStorage.setItem("user", JSON.stringify(res.data))
-              this.formVisible2 = false
-              this.changeVisible()
-              this.changeUsername(res.data.username)
-              this.changeAuthentication(true)
-              this.$message({
-                message: '注册成功',
-                type: 'success'
-              })
-            }else {
-              this.$message.error(res.msg)
-            }
-          })
+          if (this.form2.password !== this.form2.rePassword){
+            this.$message.error("两次输入密码不一致")
+          }else{
+            this.request.post('/user', {
+              username: this.form2.username,
+              password: this.form2.password,
+              phone: this.form2.phone,
+              code: this.form2.verificationCode
+            }).then(res => {
+              if (res.code === '200') {
+                localStorage.setItem("user", JSON.stringify(res.data))
+                this.formVisible2 = false
+                this.changeVisible()
+                this.changeUsername(res.data.username)
+                this.changeAuthentication(true)
+                this.$message({
+                  message: '注册成功',
+                  type: 'success'
+                })
+              }else {
+                this.$message.error(res.msg)
+              }
+            })
+          }
         } else {
           return false;
         }

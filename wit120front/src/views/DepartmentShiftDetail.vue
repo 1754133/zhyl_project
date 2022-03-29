@@ -559,28 +559,4 @@ export default {
   outline: none;
   box-sizing: border-box;
 }
-
-/*.el-button {
-  -webkit-text-size-adjust: 100%;
-  border-spacing: 0;
-  border-collapse: collapse;
-  display: inline-block;
-  line-height: 1;
-  white-space: nowrap;
-  cursor: pointer;
-  color: #084e02;
-  -webkit-appearance: none;
-  box-sizing: border-box;
-  outline: 0;
-  margin: 0;
-  transition: .1s;
-  font-weight: 500;
-  font-size: 14px;
-  border-radius: 4px;
-  border: none;
-  width: 100%;
-  padding: 5px 10px;
-  overflow: hidden;
-  text-align: left;
-}*/
 </style>

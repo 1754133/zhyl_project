@@ -78,6 +78,7 @@ export default {
       localStorage.removeItem("user")
       this.Authentication = false
       this.$router.push('/')
+      this.$message.success("成功退出登录")
     },
     ifHasToken(){
       let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null

@@ -7,7 +7,6 @@
         <div style="height: 100%">
           <el-page-header @back="goBack" content="挂号查询界面" style="margin-left: 168px">
           </el-page-header>
-
           <div class="title">
             挂号信息
           </div>
@@ -91,10 +90,13 @@
                     </el-tab-pane>
                     <el-tab-pane label="医技推荐" name="third">
                       <el-input type="textarea" :rows="10" v-model="technicianRecommend" readonly style="font-size: 20px"></el-input>
+                      <el-button type="success" @click="orderTechnician" style="margin-top: 10px">一键预约</el-button>
                     </el-tab-pane>
                   </el-tabs>
                 </el-dialog>
-
+                <el-dialog title="预约失败的医技" :visible.sync="formVisible1" width="25%">
+                  <span v-for="item in failList">{{item}}<br/></span>
+                </el-dialog>
 
               </el-main>
             </el-container>
@@ -121,7 +123,10 @@ export default {
       prescription: '',
       patientId: '',
       tableData: [],
-      todayDate: ''
+      todayDate: '',
+      orderId: 0,
+      formVisible1: false,
+      failList: []
     }
   },
   mounted() {
@@ -129,6 +134,29 @@ export default {
     this.getTableData()
   },
   methods: {
+    orderTechnician(){
+      let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+      if (user){
+        let params = new FormData()
+        params.append('orderId', this.orderId)
+        params.append('patientId', user.userId)
+        params.append('createTime', this.todayDate)
+        this.request.post('/medicalResource/appointment/system', params).then(res => {
+          if (res.code === '200'){
+            this.formVisible = false
+            if (res.data.length > 0){
+              this.failList = res.data
+              this.formVisible1 = true
+            }else{
+              this.$message.success('一键预约成功')
+              this.$router.push('/TechQuery')
+            }
+          }else{
+            this.$message.error(res.msg)
+          }
+        })
+      }
+    },
     getCurrentDate(n) {
       let dd = new Date();
       if (n) {
@@ -148,6 +176,7 @@ export default {
       if (user) {
         this.request.get('/user/orders/' + user.userId).then(res => {
           if (res.code === '200') {
+            console.log(res.data)
             this.tableData = this.handleTableData(res.data)
           }else{
             this.tableData = []
@@ -206,6 +235,7 @@ export default {
         }
       })
       this.formVisible = true
+      this.orderId = orderId
     },
     deleteRow(orderId) {
       this.$confirm('此操作将取消您的预约, 是否继续?', '提示', {
@@ -216,7 +246,7 @@ export default {
         this.request.delete('/order/appointment/' + orderId).then(res => {
           if (res.code === '200'){
             this.$message({
-              message: '删除成功',
+              message: '取消预约成功',
               type: 'success'
             })
             this.getTableData()
@@ -227,7 +257,7 @@ export default {
       }).catch(() => {
         this.$message({
           type: 'info',
-          message: '已取消删除'
+          message: '已取消操作'
         });
       });
     }

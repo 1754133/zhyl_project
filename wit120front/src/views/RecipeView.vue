@@ -129,8 +129,9 @@
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
+            <el-button type="success" @click="recommend">推荐入院</el-button>
             <el-button type="danger" @click="dialogVisible=false">取 消</el-button>
-            <el-button type="primary" @click="submitAdd">确定</el-button>
+            <el-button type="primary" @click="submitAdd">确 定</el-button>
           </div>
         </el-dialog>
       </el-main>
@@ -211,6 +212,16 @@ export default {
     this.showCaseHistory()
   },
   methods: {
+    recommend(){
+      this.request.get('/ward/systemRecommend').then(res => {
+        if (res.code === '200'){
+          this.form1.wardId = res.data.wardId
+          this.form1.bedId = res.data.bedId
+        }else{
+          this.$message.error(res.msg)
+        }
+      })
+    },
     submitAdd() {
       this.$refs['newHospitaliseForm'].validate((valid) => {
         if (valid) {
@@ -308,23 +319,27 @@ export default {
       })
     },
     submitRecipe() {
-      let recipeStr = ''
-      for (let i = 0, j = 0; i < this.drug.length, j < this.drug.length; i++, j++) {
-        recipeStr = recipeStr + this.drug[i] + 'x' + this.num[j] + ';'
-      }
-      let params = new FormData()
-      params.append('orderId', this.orderId)
-      params.append('prescription', recipeStr)
-      this.request.post('/doctor/prescription', params).then(res => {
-        if (res.code === '200') {
-          this.$message({
-            message: '保存成功',
-            type: 'success'
-          })
-        } else {
-          this.$message.error(res.msg)
+      if (this.drug.length === 0 || this.num.length === 0 || this.drug.length !== this.num.length){
+        this.$message.error('处方内容或药品数量不能为空')
+      }else{
+        let recipeStr = ''
+        for (let i = 0, j = 0; i < this.drug.length, j < this.num.length; i++, j++) {
+          recipeStr = recipeStr + this.drug[i] + 'x' + this.num[j] + ';'
         }
-      })
+        let params = new FormData()
+        params.append('orderId', this.orderId)
+        params.append('prescription', recipeStr)
+        this.request.post('/doctor/prescription', params).then(res => {
+          if (res.code === '200') {
+            this.$message({
+              message: '保存成功',
+              type: 'success'
+            })
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+      }
     },
     showDrugName() {
       this.request.get('/drug/names').then(res => {
@@ -351,19 +366,23 @@ export default {
       this.$router.push('')
     },
     onSubmit() {
-      let params = new FormData()
-      params.append('orderId', this.orderId)
-      params.append('caseHistory', this.form.desc)
-      this.request.post('/doctor/caseHistory', params).then(res => {
-        if (res.code === '200') {
-          this.$message({
-            message: '保存成功',
-            type: 'success'
-          })
-        } else {
-          this.$message.error(res.msg)
-        }
-      })
+      if (this.form.desc === '') {
+        this.$message.error('病历内容不能为空')
+      }else{
+        let params = new FormData()
+        params.append('orderId', this.orderId)
+        params.append('caseHistory', this.form.desc)
+        this.request.post('/doctor/caseHistory', params).then(res => {
+          if (res.code === '200') {
+            this.$message({
+              message: '保存成功',
+              type: 'success'
+            })
+          } else {
+            this.$message.error(res.msg)
+          }
+        })
+      }
     },
     showDepartmentName() {
       this.request.get('/department/name').then(res => {
