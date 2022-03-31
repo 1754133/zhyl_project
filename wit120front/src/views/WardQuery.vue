@@ -10,13 +10,13 @@
           <div class="title">
             病房信息详情
           </div>
-          <div style="display: flex;justify-content: left;margin-top: 50px;margin-left:300px">
+          <div style="display: flex;justify-content: left;margin-top: 50px;margin-left:150px">
             <el-container>
               <el-main>
                 <el-table
                     :data="tableData"
                     border
-                    style="width: 80%;font-size:18px">
+                    style="width: 90%;font-size:18px">
                   <el-table-column
                       prop="wardId"
                       label="病房号"
@@ -25,7 +25,7 @@
                   <el-table-column
                       prop="bedId"
                       label="床位号"
-                      width="100">
+                      width="140">
                   </el-table-column>
                   <el-table-column
                       prop="patientName"
@@ -35,17 +35,17 @@
                   <el-table-column
                       prop="gender"
                       label="性别"
-                      width="70">
+                      width="140">
                   </el-table-column>
                   <el-table-column
                       prop="age"
                       label="年龄"
-                      width="70">
+                      width="140">
                   </el-table-column>
                   <el-table-column
                       prop="createTime"
                       label="入院时间"
-                      width="190">
+                      width="220">
                   </el-table-column>
                   <el-table-column
                       fixed="right"

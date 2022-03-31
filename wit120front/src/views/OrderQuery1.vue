@@ -11,15 +11,14 @@
           <div class="title">
             挂号信息
           </div>
-          <div style="display: flex;justify-content: left;margin-top: 50px;margin-left:200px">
+          <div style="display: flex;justify-content: left;margin-top: 50px;margin-left:150px">
             <el-container>
               <el-main>
                 <el-table
                     :data="tableData"
                     border
-                    style="width: 80%;font-size:18px">
+                    style="width: 90%;font-size:18px">
                   <el-table-column
-                      fixed
                       prop="patientName"
                       label="病患姓名"
                       width="150">

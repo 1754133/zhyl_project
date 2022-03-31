@@ -54,7 +54,7 @@
                     width="200">
                   <template slot-scope="scope">
                     <el-button
-                        type="text" size="small" @click="goNext(scope.row)">填写处方
+                        type="text" size="small" @click="goNext(scope.row)">处理挂号
                     </el-button>
                     <el-button v-if="scope.row.deal === '否'"
                         type="text" size="small" @click="handleDelete(scope.row.orderId)">过号

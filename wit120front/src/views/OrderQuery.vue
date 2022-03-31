@@ -10,15 +10,14 @@
           <div class="title">
             挂号信息
           </div>
-          <div style="display: flex;justify-content: left;margin-top: 50px;margin-left:200px">
+          <div style="display: flex;justify-content: left;margin-top: 50px;margin-left:150px">
             <el-container>
               <el-main>
                 <el-table
                     :data="tableData"
                     border
-                    style="width: 80%;font-size:18px">
+                    style="width: 90%;font-size:18px">
                   <el-table-column
-                      fixed
                       prop="patientName"
                       label="病患姓名"
                       width="150">
@@ -64,13 +63,13 @@
                       width="100">
                   </el-table-column>
                   <el-table-column
-                      fixed="right"
                       prop="detail"
+                      fixed="right"
                       label="操作"
                       width="240">
                     <template slot-scope="scope">
-                      <el-button v-if="scope.row.deal==='是'" @click="handleClick1(scope.row.orderId)" type="success">查看</el-button>
-                      <el-button v-if="scope.row.deal==='否'" @click="handleClick1(scope.row.orderId)" type="success" disabled>查看</el-button>
+                      <el-button v-if="scope.row.deal==='是'" @click="handleClick1(scope.row.orderId, scope.row.orderTime)" type="success">查看</el-button>
+                      <el-button v-if="scope.row.deal==='否'" @click="handleClick1(scope.row.orderId, scope.row.orderTime)" type="success" disabled>查看</el-button>
                       <span v-if="scope.row.deal==='否'"><el-button type="danger"
                                                                      @click="deleteRow(scope.row.orderId)">取消预约</el-button></span>
                       <span v-if="scope.row.deal==='是'"><el-button type="danger" disabled>取消预约</el-button></span>
@@ -90,7 +89,8 @@
                     </el-tab-pane>
                     <el-tab-pane label="医技推荐" name="third">
                       <el-input type="textarea" :rows="10" v-model="technicianRecommend" readonly style="font-size: 20px"></el-input>
-                      <el-button type="success" @click="orderTechnician" style="margin-top: 10px">一键预约</el-button>
+                      <el-button v-if="orderTime === todayDate" type="success" @click="orderTechnician" style="margin-top: 10px">一键预约</el-button>
+                      <el-button v-if="orderTime !== todayDate" type="success" @click="orderTechnician" style="margin-top: 10px" disabled>一键预约</el-button>
                     </el-tab-pane>
                   </el-tabs>
                 </el-dialog>
@@ -126,7 +126,8 @@ export default {
       todayDate: '',
       orderId: 0,
       formVisible1: false,
-      failList: []
+      failList: [],
+      orderTime: ''
     }
   },
   mounted() {
@@ -176,7 +177,6 @@ export default {
       if (user) {
         this.request.get('/user/orders/' + user.userId).then(res => {
           if (res.code === '200') {
-            console.log(res.data)
             this.tableData = this.handleTableData(res.data)
           }else{
             this.tableData = []
@@ -218,7 +218,7 @@ export default {
     goBack() {
       this.$router.push('/')
     },
-    handleClick1(orderId) {
+    handleClick1(orderId, orderTime) {
       this.request.get('/doctor/caseHistory/' + orderId).then(res => {
         if (res.code === '200'){
           this.medicalrecord = res.data
@@ -232,6 +232,9 @@ export default {
       this.request.get('/medicalResource/recommend/' + orderId).then(res => {
         if (res.code === '200'){
           this.technicianRecommend = res.data
+          this.orderTime = orderTime
+        }else{
+          this.orderTime = ''
         }
       })
       this.formVisible = true

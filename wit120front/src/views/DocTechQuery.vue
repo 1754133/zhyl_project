@@ -11,13 +11,13 @@
           <div class="title">
             医技预约信息
           </div>
-          <div style="display: flex;justify-content: left;margin-top: 50px;margin-left:300px">
+          <div style="display: flex;justify-content: left;margin-top: 50px;margin-left:150px">
             <el-container>
               <el-main>
                 <el-table
                     :data="tableData"
                     border
-                    style="width: 70%;font-size:18px">
+                    style="width: 90%;font-size:18px">
                   <el-table-column
                       prop="medResOrderId"
                       label="预约单编号"
@@ -41,7 +41,7 @@
                   <el-table-column
                       prop="createTime"
                       label="预约单生成时间"
-                      width="150">
+                      width="220">
                   </el-table-column>
                   <el-table-column
                       prop="noon"
